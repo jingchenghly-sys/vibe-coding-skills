@@ -4,20 +4,29 @@ description: >-
   Turn a product idea into project notes, per-module 结构草稿.json and PRD.md;
   add HTML prototype only when there is no runnable code yet; when web/server
   (or equivalent) already exists, update draft + PRD + the real project in sync.
-  Structure draft is the negotiation surface. Use for product-forge, 结构草稿,
-  PRD, HTML 原型, 产品方案, 页面原型, or turning an idea into syncable PRD and
-  implementation. Works alone or alongside the vibe-coding skill.
+  Structure draft is the negotiation surface. Upsert when asked to install/update;
+  do not auto-write drafts after install. Write drafts/PRD/prototype only when the
+  user explicitly asks. Use for product-forge, 结构草稿, PRD, HTML 原型, 产品方案, 页面原型.
+  Works alone or alongside the vibe-coding skill.
 ---
 
 # 结构草稿 → 操作说明 + 实现（或 HTML 原型）
 
 把已决定要做的一页，收成可改的结构，再编译成下游。C 端、H5、工作台、配置页、列表页都按此产出。
 
+## 何时开工（先读）
+
+**安装或更新（upsert）本 skill ≠ 开始写概述 / 结构草稿 / PRD / 原型。**
+
+- Upsert：目标 skills 目录中不存在则拷贝，已存在则用仓库当前版本覆盖（含 `references/`）。
+- 装好后：等用户**明确要求**做某一页、写结构草稿、出 PRD、同步草稿或生成原型，再进入下方工作流。
+- 与 vibe-coding 同条「安装或更新」消息时：本 skill 只做 upsert；若 Agent 代 vibe-coding 询问是否新建工程，用户同意后由 vibe-coding 做环境与骨架；product-forge 写草稿仍等用户接着点名做某一页。
+
+与同仓 `vibe-coding` 配合时：工程骨架由 vibe-coding 在用户确认建项目后再生成；本 skill 的产品工件默认落在业务项目的 `product/` 下。本 skill **可单独安装使用**（拷贝整个 `skills/product-forge/`，含 `references/`）。
+
 **结构草稿是唯一协商面。** 对话不当需求文档。名称、顺序、枚举、操作同构；冲突时改上游。
 
-权威顺序：项目说明 > 本模块结构草稿 > `PRD.md`（本页操作说明，不是立项）> 实现（有代码项目）或 `原型.html`（尚无代码）。新建项目先有项目根和项目说明；已在项目内则对齐已有说明。
-
-与同仓 `vibe-coding` 配合时：工程骨架由 vibe-coding 生成；本 skill 的产品工件默认落在业务项目的 `product/` 下。本 skill **可单独安装使用**（拷贝整个 `skills/product-forge/`，含 `references/`）。
+权威顺序：项目说明 > 本模块结构草稿 > `PRD.md`（本页操作说明，不是立项）> 实现（有代码项目）或 `原型.html`（尚无代码）。用户明确要新建产品文档时，先有项目根和项目说明；已在项目内则对齐已有说明。
 
 ## 有代码时走实现；无代码时出 HTML 原型
 
@@ -76,6 +85,8 @@ description: >-
 - 项目说明新建默认 `概述.md`；已有 `背景.md` 等则用已有。
 
 ## 工作流
+
+**前置：** 用户已明确要求做结构草稿 / PRD / 原型 /「按草稿同步」（见「何时开工」）。
 
 **新建**
 

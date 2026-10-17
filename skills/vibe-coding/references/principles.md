@@ -2,9 +2,13 @@
 
 生成并推进项目时遵守：
 
+## 0. upsert → 询问 → 确认后再开工
+
+安装或更新 skill 后先询问是否立即新建项目。用户明确同意（或之后主动要求开新项目）再做环境检测与脚手架；用户说先不或未同意则停住。
+
 ## 1. 环境先于骨架，骨架先于业务
 
-先按 `environment-setup.md` 保证 Go / Node+npm / Docker+Compose 可用，再落齐 `server` / `web` / `admin` / `product` / `deploy`，再写功能。
+（在已确认开工之后）先按 `environment-setup.md` 保证 Go / Node+npm / Docker+Compose 可用，再落齐 `server` / `web` / `admin` / `product` / `deploy`，再写功能。
 
 ## 2. 栈保持默认
 

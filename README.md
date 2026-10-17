@@ -8,10 +8,10 @@
 
 | Skill | 路径 | 做什么 |
 | --- | --- | --- |
-| **vibe-coding** | `skills/vibe-coding/` | 检测/补齐本机工具，在 `~/workspace/projects/<name>/` 生成 `server` / `web` / `admin` / `product` / `deploy` 骨架（Vue3+Ant Design Vue、Go Gin+GORM、Docker Compose） |
-| **product-forge** | `skills/product-forge/` | 想法 → 概述 + 模块 `结构草稿.json` + `PRD.md`；无代码时加 HTML 原型，有代码时同步改项目。结构草稿是协商入口 |
+| **vibe-coding** | `skills/vibe-coding/` | 用户确认建项目后：检测/补齐本机工具，在 `~/workspace/projects/<name>/` 生成 `server` / `web` / `admin` / `product` / `deploy` 骨架（Vue3+Ant Design Vue、Go Gin+GORM、Docker Compose） |
+| **product-forge** | `skills/product-forge/` | 用户明确要求做某一页时：想法 → 概述 + 模块 `结构草稿.json` + `PRD.md`；无代码时加 HTML 原型，有代码时同步改项目。结构草稿是协商入口 |
 
-配合用法：先用 vibe-coding 起工程，再用 product-forge 在 `product/` 下落产品工件并驱动 `web`/`admin`/`server` 实现。两个 skill 均可单独安装。
+配合用法：先 upsert skill →（若用户同意）用 vibe-coding 起工程 → 再用 product-forge 在 `product/` 下落产品工件。两个 skill 均可单独安装；**安装或更新 ≠ 自动开工**。
 
 ## 两层别搞混
 
@@ -20,25 +20,32 @@
 | **本仓库** | skill 定义（给 AI 装的） | `skills/vibe-coding/`、`skills/product-forge/` |
 | **生成出的业务项目** | skill 的产出物 | `~/workspace/projects/<name>/{server,web,admin,product,deploy}` |
 
-## 如何安装
+## 给 Agent 的提示词（复制即用）
 
-把仓库地址发给 AI，例如：
+流程固定三步：**upsert skill → 询问是否新建项目 → 用户明确同意后再做环境检测与骨架**。安装逻辑为 upsert（不存在则安装，已存在则覆盖更新）。仓库：
+
+`https://github.com/jingchenghly-sys/vibe-coding-skills`
+
+按需增删列表中的 skill 名（`vibe-coding` / `product-forge`）。
 
 ```text
-请从这个 GitHub 仓库安装 skills：
-https://github.com/jingchenghly-sys/vibe-coding-skills
+请从 https://github.com/jingchenghly-sys/vibe-coding-skills 安装或更新以下 skill（upsert）：
+- vibe-coding
+- product-forge
 
-按需拷贝 skills/vibe-coding/ 和/或 skills/product-forge/
-到本机或本项目的 skills 目录。
+规则：
+1. 找到本机或本项目的 skills 目录（如 .cursor/skills、.claude/skills、.agents/skills，或用户级 ~/.cursor/skills 等）。
+2. 对每个列出的 skill：目标目录不存在则拷贝安装；已存在则用仓库里 skills/<name>/ 的当前内容覆盖更新（含 references/）。
+3. upsert 完成后：简短回报装到了哪个目录、新建还是更新了哪些 skill；然后询问我是否现在按 vibe-coding 新建项目（会做环境检测 + 生成 server/web/admin/product/deploy 骨架）。
+4. 等我明确同意后再开工；我说先不、或未明确同意时停住。不要自动写 product-forge 草稿，除非我接着要求做某一页。
 ```
 
-### 手动安装
+### 手动安装（可选）
 
 ```bash
 git clone https://github.com/jingchenghly-sys/vibe-coding-skills.git
-# 任选 skills 根目录（按你用的 Agent）：
 SKILLS_ROOT=.claude/skills   # 或 .agents/skills 或 .cursor/skills
-
+rm -rf "$SKILLS_ROOT/vibe-coding" "$SKILLS_ROOT/product-forge"
 cp -R vibe-coding-skills/skills/vibe-coding "$SKILLS_ROOT/"
 cp -R vibe-coding-skills/skills/product-forge "$SKILLS_ROOT/"
 ```
@@ -56,17 +63,10 @@ gh skill install jingchenghly-sys/vibe-coding-skills product-forge
 
 ## 安装后预期行为
 
-**vibe-coding**
-
-1. Agent 发现该 skill。
-2. 「按 vibe-coding 开新项目」→ 先检测/补齐 Go、Node+npm、Docker+Compose → 生成五目录骨架并按默认栈初始化。
-3. 功能开发落在对应目录；换栈需明确说。
-
-**product-forge**
-
-1. Agent 发现该 skill。
-2. 「按 product-forge 做这一页」→ 写出/更新模块结构草稿与 PRD；无代码出原型，有代码改项目。
-3. 用户改 `结构草稿.json` 后说「按草稿同步」→ 重读磁盘并同步下游。
+1. Agent 完成 upsert，回报路径与新建/更新结果。
+2. Agent **询问**是否立即按 vibe-coding 新建项目。
+3. 用户明确同意 → 环境检测（缺啥补啥）+ 生成骨架；用户说先不 / 未同意 → 停住。
+4. product-forge：装好后等用户明确要求做某一页，才写草稿 / PRD / 原型。
 
 ## 仓库结构
 
@@ -103,6 +103,7 @@ vibe-coding-skills/
 
 - [ ] 各 skill 的 `name` 与目录名一致
 - [x] README 仓库地址：`https://github.com/jingchenghly-sys/vibe-coding-skills`
+- [ ] 单一提示词：upsert → 询问 → 确认后开工
 - [ ] 可单独安装 `vibe-coding` 或 `product-forge`
 
 ## 许可

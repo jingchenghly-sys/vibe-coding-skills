@@ -6,7 +6,7 @@
 
 `<project-name>` 用英文 kebab-case（或用户指定的英文名）。
 
-**前置**：已按 `environment-setup.md` 完成环境检测与缺失安装（Go、Node+npm、Docker+Compose）。
+**前置**：用户已确认创建/初始化项目；且已按 `environment-setup.md` 完成环境检测与缺失安装（Go、Node+npm、Docker+Compose）。
 
 ## 技术栈（环境初始化默认值）
 
