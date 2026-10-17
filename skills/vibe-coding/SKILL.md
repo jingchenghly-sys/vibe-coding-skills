@@ -1,6 +1,6 @@
 ---
 name: vibe-coding
-description: Help users scaffold new projects under ~/workspace/projects with Vue3+Ant Design Vue (web/admin), Go Gin+GORM (server), and Docker Compose (deploy). Use when starting a vibe-coding project, generating project skeleton, or aligning repo structure.
+description: Help users scaffold new projects under ~/workspace/projects with Vue3+Ant Design Vue (web/admin), Go Gin+GORM (server), and Docker Compose (deploy). Detect/install OS toolchains first. Use when starting a vibe-coding project, generating project skeleton, or aligning repo structure.
 ---
 
 # Vibe Coding
@@ -10,8 +10,9 @@ description: Help users scaffold new projects under ~/workspace/projects with Vu
 ## 生成项目默认约定
 
 - **根路径**：`~/workspace/projects/<project-name>/`（英文名）
-- **目录**：`.cursor/` · `server/` · `web/` · `admin/` · `product/` · `deploy/`
+- **目录**：`server/` · `web/` · `admin/` · `product/` · `deploy/`（**不要**创建 `.cursor/`）
 - **栈**：前端 Vue3 + Ant Design Vue；后端 Go + Gin + GORM；部署 Docker + Docker Compose
+- **本机工具**：按 OS 检测；已有可用则不动版本，缺失则装较新稳定版（见 `references/environment-setup.md`）
 
 详情见 `references/project-scaffold.md`。
 
@@ -24,18 +25,20 @@ description: Help users scaffold new projects under ~/workspace/projects with Vu
 ## How to Help
 
 1. **确认** — 英文项目名、一句话目标；栈默认如上，用户另说才改。
-2. **生成骨架** — 按 `references/project-scaffold.md` 建齐目录并做最小可运行初始化。
-3. **写入约定** — 原则摘要放进生成项目的 `.cursor/`（及根 README）；细则读 `references/principles.md`。
-4. **提示词** — 需要时把 `references/prompts.md` 的用法写进 README 或 `.cursor`。
-5. **验收** — 走 `references/checklist.md`，缺口列给用户或当场补。
-6. **再开发** — 业务写在对应目录；不合并 `web`/`admin`；不擅自换栈。
+2. **环境检测与安装** — 按 `references/environment-setup.md`：识别 OS → 检测 Go / Node+npm / Docker+Compose → **仅补缺失** → 复检通过。**先于或紧挨着**下一步，不可跳过。
+3. **生成骨架** — 按 `references/project-scaffold.md` 建齐五目录并做最小可运行初始化（无 `.cursor/`）。
+4. **写入约定** — 原则摘要写入生成项目**根 README**（栈、目录、禁止事项）；细则读 `references/principles.md`。
+5. **提示词** — 需要时把 `references/prompts.md` 的用法写进 README。
+6. **验收** — 走 `references/checklist.md`，缺口列给用户或当场补。
+7. **再开发** — 业务写在对应目录；不合并 `web`/`admin`；不擅自换栈；不创建项目内 `.cursor/`。
 
 ## Core Principles
 
-- 骨架先于业务
+- 环境先于骨架，骨架先于业务
 - 栈不漂移
 - `web` 与 `admin` 分离
 - 小步可演示
+- 生成项目不包含 `.cursor/`
 
 见 `references/principles.md`。
 
@@ -44,9 +47,13 @@ description: Help users scaffold new projects under ~/workspace/projects with Vu
 - 「项目英文目录名用什么？」
 - 「一句话目标？第一期最小演示是什么？」
 - 「数据库用 Postgres 还是 MySQL？（未指定则我选常见默认并写进 deploy）」
+- 「本机是 macOS / Linux / Windows？（不明时我先探测）」
 
 ## Common Mistakes to Flag
 
+- 未检测环境就生成项目，导致用户无法编译/跑前端/起 compose
+- 已有可用工具却强行升级或换成 beta/nightly
+- 在生成项目里创建 `.cursor/`
 - 缺目录就写业务
 - 把 `web` 和 `admin` 揉成一个前端
 - 未授权换栈（例如改成 React / 换 Web 框架）
@@ -54,6 +61,7 @@ description: Help users scaffold new projects under ~/workspace/projects with Vu
 
 ## Deep Dive
 
+- `references/environment-setup.md` — OS 分支检测与安装
 - `references/project-scaffold.md` — 生成项目的目录与初始化
 - `references/principles.md` — 原则
 - `references/prompts.md` — 常用提示

@@ -5,15 +5,16 @@
 ## 开新项目
 
 ```text
-按 vibe-coding skill，在 ~/workspace/projects/<英文名> 生成项目骨架，
-然后初始化 Vue3+Ant Design Vue（web/admin）和 Go Gin+GORM（server），
+按 vibe-coding skill，先检测并补齐本机 Go / Node / Docker（缺什么装稳定版，已有不动），
+再在 ~/workspace/projects/<英文名> 生成项目骨架（只要 server/web/admin/product/deploy，不要 .cursor），
+然后初始化 Vue3+Ant Design Vue（web/admin，npm）和 Go Gin+GORM（server），
 deploy 用 docker compose。目标：<一句话>
 ```
 
 ## 对齐已有仓库
 
 ```text
-按 vibe-coding 的目录约定检查当前项目，缺什么补什么，不要改栈。
+按 vibe-coding 的目录约定检查当前项目，缺什么补什么，不要改栈，不要新建 .cursor。
 ```
 
 ## 做最小可演示竖切
@@ -26,4 +27,10 @@ deploy 用 docker compose。目标：<一句话>
 
 ```text
 补齐 deploy/docker-compose 与 README，让我能一条命令（或两步）起服务。
+```
+
+## 只补环境
+
+```text
+按 vibe-coding 的 environment-setup，检测本机 Go/Node/Docker；缺的装稳定版，已有别升级。
 ```

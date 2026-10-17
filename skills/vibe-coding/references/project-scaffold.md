@@ -6,11 +6,13 @@
 
 `<project-name>` 用英文 kebab-case（或用户指定的英文名）。
 
+**前置**：已按 `environment-setup.md` 完成环境检测与缺失安装（Go、Node+npm、Docker+Compose）。
+
 ## 技术栈（环境初始化默认值）
 
 | 层 | 选型 |
 | --- | --- |
-| 前端 `web` / `admin` | Vue 3 + Ant Design Vue |
+| 前端 `web` / `admin` | Vue 3 + Ant Design Vue（包管理默认 **npm**） |
 | 后端 `server` | Go + Gin + GORM |
 | 部署 `deploy` | Docker + Docker Compose |
 
@@ -20,22 +22,22 @@
 
 ```text
 ~/workspace/projects/<project-name>/
-├── .cursor/          # 配套可复用的 AI 能力（rules / skills 等，随项目走）
 ├── server/           # 后端：Go（Gin + GORM）
 ├── web/              # 前端：网页 + H5（Vue3 + Ant Design Vue）
 ├── admin/            # 管理后台（Vue3 + Ant Design Vue）
 ├── product/          # 产品文档、原型等
 ├── deploy/           # 部署：Dockerfile、docker-compose 等
-└── README.md         # 如何安装 / 跑起来 / 部署
+└── README.md         # 如何安装 / 跑起来 / 部署；含栈与目录约定摘要
 ```
+
+**禁止**：在生成项目根下创建 `.cursor/`（或引导用户为此项目建 `.cursor`）。项目约定写在根 `README.md`（及必要时 `product/`）。
 
 ### 各目录职责
 
 | 目录 | 职责 | 初始化时至少做什么 |
 | --- | --- | --- |
-| `.cursor/` | 项目内 AI 约定与可复用能力 | 放简短规则或说明：栈、目录、禁止事项；可从本 skill 的约定摘要写入 |
 | `server/` | API / 领域逻辑 | Go module、Gin 入口、GORM 占位、基础目录（如 `cmd/` / `internal/`，按常见 Go 习惯，勿过度拆） |
-| `web/` | C 端网页 + H5 | Vue3 + Ant Design Vue 工程骨架，能 `dev` 起来 |
+| `web/` | C 端网页 + H5 | Vue3 + Ant Design Vue 工程骨架，能用 npm `dev` 起来 |
 | `admin/` | 管理后台 | 独立 Vue3 + Ant Design Vue 工程骨架（与 `web` 分离） |
 | `product/` | 需求、原型、说明 | `README.md` + 可选 `docs/` / 原型占位 |
 | `deploy/` | 容器与编排 | 各服务 Dockerfile 思路 + 根级或本目录 `docker-compose.yml`，能把 server/web/admin（按需）编起来 |
@@ -43,8 +45,8 @@
 ## Agent 落地规则
 
 1. 根目录名英文；若用户给了中文名，先确认英文目录名再创建。
-2. **六块目录都建齐**（可先放 README 占位，但目录不能缺）。
-3. 已有仓库则**合并对齐**，不无故删用户已有内容。
+2. **五块目录都建齐**（可先放 README 占位，但目录不能缺）；**不要**建 `.cursor/`。
+3. 已有仓库则**合并对齐**，不无故删用户已有内容；若已有 `.cursor/`，不要主动扩张其职责，新约定写入 README。
 4. 先让 `docker compose`（或文档中的等价命令）与本地 dev 路径说清楚，再堆业务功能。
 5. `web` 与 `admin` 不要合成一个前端工程，除非用户明确要求。
 

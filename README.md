@@ -9,9 +9,9 @@
 | | 是什么 | 长什么样 |
 | --- | --- | --- |
 | **本仓库** | skill 定义（给 AI 装的） | `skills/vibe-coding/SKILL.md` … |
-| **生成出的业务项目** | skill 的产出物 | `~/workspace/projects/<name>/{.cursor,server,web,admin,product,deploy}` |
+| **生成出的业务项目** | skill 的产出物 | `~/workspace/projects/<name>/{server,web,admin,product,deploy}`（**无** `.cursor/`） |
 
-生成项目默认栈：**Vue3 + Ant Design Vue**（`web`/`admin`）、**Go + Gin + GORM**（`server`）、**Docker Compose**（`deploy`）。详见 `skills/vibe-coding/references/project-scaffold.md`。
+生成项目默认栈：**Vue3 + Ant Design Vue**（`web`/`admin`，默认 npm）、**Go + Gin + GORM**（`server`）、**Docker Compose**（`deploy`）。开项目前按 OS 检测并补齐本机工具（已有不动、缺失装稳定版）。详见 `skills/vibe-coding/references/project-scaffold.md`、`environment-setup.md`。
 
 ## 这是什么
 
