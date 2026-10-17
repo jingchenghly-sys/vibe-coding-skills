@@ -29,7 +29,7 @@
 
 ```text
 请从这个 GitHub 仓库安装 vibe-coding skill：
-https://github.com/<OWNER>/vibe-coding-skills
+https://github.com/jingchenghly-sys/vibe-coding-skills
 
 按 Agent Skills 约定，把 skills/vibe-coding/ 拷到本机或本项目的 skills 目录，
 然后按该 skill 推进新项目。
@@ -40,7 +40,7 @@ https://github.com/<OWNER>/vibe-coding-skills
 克隆后，把 skill 文件夹拷进当前项目的 skills 根目录（不同工具目录名略有差异，选一个即可）：
 
 ```bash
-git clone https://github.com/<OWNER>/vibe-coding-skills.git
+git clone https://github.com/jingchenghly-sys/vibe-coding-skills.git
 # 任选其一（按你用的 Agent）：
 cp -R vibe-coding-skills/skills/vibe-coding .claude/skills/
 # 或
@@ -54,7 +54,7 @@ cp -R vibe-coding-skills/skills/vibe-coding .cursor/skills/
 也可用 GitHub CLI（若已安装且支持 skill 子命令）：
 
 ```bash
-gh skill install <OWNER>/vibe-coding-skills vibe-coding
+gh skill install jingchenghly-sys/vibe-coding-skills vibe-coding
 ```
 
 仓库约定符合 [Agent Skills 规范](https://agentskills.io/specification) 的 `skills/*/SKILL.md` 发现方式。
@@ -95,9 +95,9 @@ vibe-coding-skills/
 ## 本地自检
 
 - [ ] `skills/vibe-coding` 的 `name` 与目录名一致
-- [ ] README 里 `<OWNER>` 换成真实 GitHub 地址
+- [x] README 仓库地址：`https://github.com/jingchenghly-sys/vibe-coding-skills`
 - [ ] 对 Agent 试一句「生成项目骨架」，确认产出目录与栈正确
 
 ## 许可
 
-MIT（见 `LICENSE`）。版权人占位，推送前请改。
+MIT（见 `LICENSE`）。Copyright © 2026 jingchenghly-sys。
