@@ -62,7 +62,7 @@ gh skill install jingchenghly-sys/vibe-coding-skills vibe-coding
 ## 安装后预期行为
 
 1. Agent 发现 `vibe-coding` skill。
-2. 你说「按 vibe-coding 开新项目」→ 在 `~/workspace/projects/<英文名>/` 生成六目录骨架并按默认栈初始化。
+2. 你说「按 vibe-coding 开新项目」→ 先检测/补齐本机 Go、Node+npm、Docker+Compose → 在 `~/workspace/projects/<英文名>/` 生成五目录骨架（`server`/`web`/`admin`/`product`/`deploy`，无 `.cursor`）并按默认栈初始化。
 3. 之后功能开发落在对应目录；换栈需你明确说。
 
 ## 仓库结构
@@ -79,6 +79,7 @@ vibe-coding-skills/
     └── vibe-coding/
         ├── SKILL.md
         ├── references/
+        │   ├── environment-setup.md
         │   ├── project-scaffold.md
         │   ├── principles.md
         │   ├── prompts.md
