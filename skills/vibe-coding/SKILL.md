@@ -31,6 +31,7 @@ description: Help users scaffold new projects under ~/workspace/projects with Vu
 5. **提示词** — 需要时把 `references/prompts.md` 的用法写进 README。
 6. **验收** — 走 `references/checklist.md`，缺口列给用户或当场补。
 7. **再开发** — 业务写在对应目录；`web` 与 `admin` 保持分工程；换栈需用户明确授权。
+8. **产品页** — 需要结构草稿 / PRD /（无代码时）HTML 原型时，使用同仓的 `product-forge` skill；工件默认落在 `product/`。
 
 ## Core Principles
 
