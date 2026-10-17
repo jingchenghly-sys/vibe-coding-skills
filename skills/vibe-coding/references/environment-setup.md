@@ -24,7 +24,9 @@
 | **Docker** | 镜像构建 | `docker version` |
 | **Docker Compose** | `deploy` 编排 | `docker compose version`（优先 Compose V2 插件；旧 `docker-compose` 可用亦可） |
 
-前端栈：Vue3 + Ant Design Vue。后端：Go + Gin + GORM。本文件只负责**本机工具链**。
+前端栈：Vue3 + Ant Design Vue。后端：Go + Gin + GORM + **MySQL**。本文件只负责**本机工具链**。
+
+**数据库：** 默认由项目 `deploy/docker-compose` 起 MySQL 稳定版服务，一般**不必**本机单独装 MySQL；有 Docker 即可。若用户本机已有可用 MySQL 并希望直连，保持其版本，在 README / `.env` 里改连接串即可。
 
 ## 检测流程（Agent）
 
@@ -120,4 +122,4 @@ WSL2：若用户主要在 WSL 内开发，按 **Linux** 分支在 WSL 内安装�
 - [ ] `docker compose version` 成功
 - [ ] 用户已有可用工具仍保持原版本
 
-然后再执行 `project-scaffold.md` 中的目录生成与栈初始化。
+然后再执行 `project-scaffold.md`（默认栈含 MySQL：由 compose 提供库服务）。

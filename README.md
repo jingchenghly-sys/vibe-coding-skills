@@ -8,7 +8,7 @@
 
 | Skill | 路径 | 做什么 |
 | --- | --- | --- |
-| **vibe-coding** | `skills/vibe-coding/` | 用户确认建项目后：检测/补齐本机工具，在 `~/workspace/projects/<name>/` 生成 `server` / `web` / `admin` / `product` / `deploy` 骨架（Vue3+Ant Design Vue、Go Gin+GORM、Docker Compose） |
+| **vibe-coding** | `skills/vibe-coding/` | 用户确认建项目后：检测/补齐本机工具，在 `~/workspace/projects/<name>/` 生成 `server` / `web` / `admin` / `product` / `deploy` 骨架（Vue3+Ant Design Vue、Go Gin+GORM+**MySQL**、Docker Compose 含 MySQL） |
 | **product-forge** | `skills/product-forge/` | 用户明确要求做某一页时：想法 → 概述 + 模块 `结构草稿.json` + `PRD.md`；无代码时加 HTML 原型，有代码时同步改项目。结构草稿是协商入口 |
 
 配合用法：先 upsert skill →（若用户同意）用 vibe-coding 起工程 → 再用 product-forge 在 `product/` 下落产品工件。两个 skill 均可单独安装；**安装或更新 ≠ 自动开工**。
@@ -36,7 +36,7 @@
 规则：
 1. 找到本机或本项目的 skills 目录（如 .cursor/skills、.claude/skills、.agents/skills，或用户级 ~/.cursor/skills 等）。
 2. 对每个列出的 skill：目标目录不存在则拷贝安装；已存在则用仓库里 skills/<name>/ 的当前内容覆盖更新（含 references/）。
-3. upsert 完成后：简短回报装到了哪个目录、新建还是更新了哪些 skill；然后询问我是否现在按 vibe-coding 新建项目（会做环境检测 + 生成 server/web/admin/product/deploy 骨架）。
+3. upsert 完成后：简短回报装到了哪个目录、新建还是更新了哪些 skill；然后询问我是否现在按 vibe-coding 新建项目（会做环境检测 + 生成 server/web/admin/product/deploy 骨架，默认 MySQL）。
 4. 等我明确同意后再开工；我说先不、或未明确同意时停住。不要自动写 product-forge 草稿，除非我接着要求做某一页。
 ```
 

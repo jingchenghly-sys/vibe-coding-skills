@@ -12,14 +12,14 @@
 
 - [ ] 根目录在 `~/workspace/projects/<英文名>/`（或用户指定路径）
 - [ ] 存在：`server/`、`web/`、`admin/`、`product/`、`deploy/`
-- [ ] 根 `README.md` 写清职责、如何运行、栈与目录约定摘要
+- [ ] 根 `README.md` 写清职责、如何运行、栈与目录约定摘要（含 MySQL）
 
 ## 栈
 
-- [ ] `server`：Go + Gin + GORM（可编译或有明确下一步）
+- [ ] `server`：Go + Gin + GORM → MySQL（可编译或有明确下一步；读 `DATABASE_URL` 或等价 DSN）
 - [ ] `web`：Vue3 + Ant Design Vue
 - [ ] `admin`：Vue3 + Ant Design Vue（可先占位工程）
-- [ ] `deploy`：Docker / docker-compose 文件存在且在 README 有用法
+- [ ] `deploy`：`docker-compose` 含 **MySQL** 稳定版服务，且 README 有用法
 
 ## 质量底线
 

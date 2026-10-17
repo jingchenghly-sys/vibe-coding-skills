@@ -2,11 +2,11 @@
 name: vibe-coding
 description: >-
   Help users scaffold new projects under ~/workspace/projects with Vue3+Ant Design Vue
-  (web/admin), Go Gin+GORM (server), and Docker Compose (deploy). When asked to
-  install/update: upsert the skill, then ask whether to create a project now; run env
-  setup and scaffolding only after the user explicitly agrees. Use when starting a
-  vibe-coding project, generating project skeleton, or aligning repo structure —
-  not merely because the skill was installed or updated.
+  (web/admin), Go Gin+GORM+MySQL (server), and Docker Compose (deploy, includes MySQL).
+  When asked to install/update: upsert the skill, then ask whether to create a project
+  now; run env setup and scaffolding only after the user explicitly agrees. Use when
+  starting a vibe-coding project, generating project skeleton, or aligning repo
+  structure — not merely because the skill was installed or updated.
 ---
 
 # Vibe Coding
@@ -29,7 +29,7 @@ description: >-
 
 - **根路径**：`~/workspace/projects/<project-name>/`（英文名）
 - **目录**：`server/` · `web/` · `admin/` · `product/` · `deploy/`
-- **栈**：前端 Vue3 + Ant Design Vue；后端 Go + Gin + GORM；部署 Docker + Docker Compose
+- **栈**：前端 Vue3 + Ant Design Vue；后端 Go + Gin + GORM + **MySQL**；部署 Docker + Docker Compose（含 MySQL 服务）
 - **本机工具**：按 OS 检测；已有可用则保持现状，缺失则装较新稳定版（见 `references/environment-setup.md`）——**仅在用户确认建项目/初始化环境后执行**
 
 详情见 `references/project-scaffold.md`。
@@ -82,8 +82,8 @@ description: >-
 - 「要现在按 vibe-coding 新建项目吗？（会做环境检测并生成骨架）」
 - 「项目英文目录名用什么？」
 - 「一句话目标？第一期最小演示是什么？」
-- 「数据库用 Postgres 还是 MySQL？（未指定则我选常见默认并写进 deploy）」
 - 「本机是 macOS / Linux / Windows？（不明时我先探测）」
+- （数据库默认 MySQL；用户要换库时再确认）
 
 ## Common Mistakes to Flag
 

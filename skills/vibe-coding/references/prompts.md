@@ -7,8 +7,8 @@
 ```text
 按 vibe-coding skill，先检测并补齐本机 Go / Node / Docker（缺什么装稳定版，已有保持），
 再在 ~/workspace/projects/<英文名> 生成项目骨架（server/web/admin/product/deploy），
-然后初始化 Vue3+Ant Design Vue（web/admin，npm）和 Go Gin+GORM（server），
-deploy 用 docker compose。目标：<一句话>
+然后初始化 Vue3+Ant Design Vue（web/admin，npm）和 Go Gin+GORM+MySQL（server），
+deploy 用 docker compose（含 MySQL）；server 用 DATABASE_URL 或 DSN 连接。目标：<一句话>
 ```
 
 ## 对齐已有仓库
@@ -26,7 +26,7 @@ deploy 用 docker compose。目标：<一句话>
 ## 准备本地跑起来
 
 ```text
-补齐 deploy/docker-compose 与 README，让我能一条命令（或两步）起服务。
+补齐 deploy/docker-compose（含 MySQL）与 README、.env.example，让我能一条命令（或两步）起库和服务。
 ```
 
 ## 只补环境

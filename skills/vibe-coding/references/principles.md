@@ -12,7 +12,7 @@
 
 ## 2. 栈保持默认
 
-默认 Vue3 + Ant Design Vue、Go（Gin + GORM）、Docker Compose。换栈需用户明确授权。
+默认 Vue3 + Ant Design Vue、Go（Gin + GORM + MySQL）、Docker Compose（含 MySQL）。换栈需用户明确授权。
 
 ## 3. 前后台分离
 
@@ -24,7 +24,7 @@
 
 ## 5. 一键能讲清怎么跑
 
-README 写清：本机环境要求、本地怎么起、compose 怎么起、各目录职责一句话。
+README 写清：本机环境要求、本地怎么起、compose（含 MySQL）怎么起、`DATABASE_URL`/DSN 怎么配、各目录职责一句话。
 
 ## 6. 小步可演示
 
