@@ -4,4 +4,4 @@
 
 Frontmatter 必填：`name`（与目录同名）、`description`（做什么 + 何时用）。格式见 [Agent Skills](https://agentskills.io/specification)。
 
-**不要**把业务项目的 `server/web/...` 放进本仓库——那些是 skill **生成出来**的，不是本仓内容。
+本仓库只放 skill 定义；业务项目的 `server` / `web` / … 是 skill 的产出，另行生成到用户项目目录。

@@ -11,4 +11,4 @@
   server/  web/  admin/  product/  deploy/  README.md
 ```
 
-（无 `.cursor/`。）栈为 Vue3+Ant Design Vue、Go Gin+GORM、Docker Compose；前端默认 npm。
+栈为 Vue3+Ant Design Vue、Go Gin+GORM、Docker Compose；前端默认 npm。

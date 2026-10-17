@@ -10,9 +10,9 @@ description: Help users scaffold new projects under ~/workspace/projects with Vu
 ## 生成项目默认约定
 
 - **根路径**：`~/workspace/projects/<project-name>/`（英文名）
-- **目录**：`server/` · `web/` · `admin/` · `product/` · `deploy/`（**不要**创建 `.cursor/`）
+- **目录**：`server/` · `web/` · `admin/` · `product/` · `deploy/`
 - **栈**：前端 Vue3 + Ant Design Vue；后端 Go + Gin + GORM；部署 Docker + Docker Compose
-- **本机工具**：按 OS 检测；已有可用则不动版本，缺失则装较新稳定版（见 `references/environment-setup.md`）
+- **本机工具**：按 OS 检测；已有可用则保持现状，缺失则装较新稳定版（见 `references/environment-setup.md`）
 
 详情见 `references/project-scaffold.md`。
 
@@ -25,20 +25,19 @@ description: Help users scaffold new projects under ~/workspace/projects with Vu
 ## How to Help
 
 1. **确认** — 英文项目名、一句话目标；栈默认如上，用户另说才改。
-2. **环境检测与安装** — 按 `references/environment-setup.md`：识别 OS → 检测 Go / Node+npm / Docker+Compose → **仅补缺失** → 复检通过。**先于或紧挨着**下一步，不可跳过。
-3. **生成骨架** — 按 `references/project-scaffold.md` 建齐五目录并做最小可运行初始化（无 `.cursor/`）。
-4. **写入约定** — 原则摘要写入生成项目**根 README**（栈、目录、禁止事项）；细则读 `references/principles.md`。
+2. **环境检测与安装** — 按 `references/environment-setup.md`：识别 OS → 检测 Go / Node+npm / Docker+Compose → **仅补缺失** → 复检通过。本步在生成骨架之前完成。
+3. **生成骨架** — 按 `references/project-scaffold.md` 建齐目录并做最小可运行初始化。
+4. **写入约定** — 原则摘要写入生成项目**根 README**（栈、目录、运行方式）；细则读 `references/principles.md`。
 5. **提示词** — 需要时把 `references/prompts.md` 的用法写进 README。
 6. **验收** — 走 `references/checklist.md`，缺口列给用户或当场补。
-7. **再开发** — 业务写在对应目录；不合并 `web`/`admin`；不擅自换栈；不创建项目内 `.cursor/`。
+7. **再开发** — 业务写在对应目录；`web` 与 `admin` 保持分工程；换栈需用户明确授权。
 
 ## Core Principles
 
 - 环境先于骨架，骨架先于业务
-- 栈不漂移
+- 栈保持默认，除非用户改
 - `web` 与 `admin` 分离
 - 小步可演示
-- 生成项目不包含 `.cursor/`
 
 见 `references/principles.md`。
 
@@ -51,13 +50,12 @@ description: Help users scaffold new projects under ~/workspace/projects with Vu
 
 ## Common Mistakes to Flag
 
-- 未检测环境就生成项目，导致用户无法编译/跑前端/起 compose
-- 已有可用工具却强行升级或换成 beta/nightly
-- 在生成项目里创建 `.cursor/`
+- 跳过环境检测就生成项目，导致无法编译/跑前端/起 compose
+- 对已可用工具强行升级或换成 beta/nightly
 - 缺目录就写业务
 - 把 `web` 和 `admin` 揉成一个前端
-- 未授权换栈（例如改成 React / 换 Web 框架）
-- 只写代码不写怎么用 compose 跑起来
+- 未授权换栈（例如改成 React）
+- 只写代码、README 里没有 compose / 本地启动说明
 
 ## Deep Dive
 

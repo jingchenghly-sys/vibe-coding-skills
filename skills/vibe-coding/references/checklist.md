@@ -3,16 +3,15 @@
 ## 环境（先于骨架）
 
 - [ ] 已识别 OS（macOS / Linux / Windows）
-- [ ] Go 可用（`go version`）；缺失才安装稳定版，已有未强行升级
-- [ ] Node + npm 可用；缺失才安装稳定/LTS；默认包管理 npm
+- [ ] Go 可用（`go version`）；缺失才装稳定版，已有则保持
+- [ ] Node + npm 可用；缺失才装稳定/LTS；默认包管理 npm
 - [ ] Docker + `docker compose` 可用（daemon 可连或已说明需启动）
-- [ ] 未使用 beta / nightly / tip / canary
+- [ ] 安装通道为稳定版（非 beta / nightly / tip / canary）
 
 ## 目录
 
 - [ ] 根目录在 `~/workspace/projects/<英文名>/`（或用户指定路径）
 - [ ] 存在：`server/`、`web/`、`admin/`、`product/`、`deploy/`
-- [ ] **未**创建项目内 `.cursor/`
 - [ ] 根 `README.md` 写清职责、如何运行、栈与目录约定摘要
 
 ## 栈
