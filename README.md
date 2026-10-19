@@ -6,7 +6,7 @@
 
 | Skill | 路径 | 做什么 |
 | --- | --- | --- |
-| **vibe-coding** | `skills/vibe-coding/` | 用户确认建项目后：产品材料收进 `product/`；只建本期需要的端（`server` / `web` / `admin` / `deploy`），并只检测这些端的工具。默认栈：Vue3+Ant Design Vue、Go Gin+GORM+**MySQL**、Docker Compose 含 MySQL |
+| **vibe-coding** | `skills/vibe-coding/` | 用户确认建项目后：产品材料收进 `product/`；只建本期需要的端（`server` / `web` / `admin` / `deploy`），并只检测这些端的工具。之后每次改完把项目跑起来并告知实际访问地址，并用 Git 提交这次改动（不主动推远程）。默认栈：Vue3+Ant Design Vue、Go Gin+GORM+**MySQL**、Docker Compose 含 MySQL |
 
 用法：先 upsert skill → 询问是否新建项目 → 用户明确同意后再做环境检测与骨架。**安装或更新 ≠ 自动开工**。
 

@@ -10,13 +10,20 @@
 只检测这些端要用的工具（缺什么装稳定版，已有保持）。
 建到的前端用 Vue3+Ant Design Vue（npm）；建了 server 再用 Go Gin+GORM+MySQL，
 deploy 用 docker compose（含 MySQL），server 用 DATABASE_URL 或 DSN 连接。
-用不到的端不要建。目标：<一句话>
+用不到的端不要建。用 Git 做版本管理：初始化仓库、写 .gitignore、首次提交。目标：<一句话>
+完成后把项目跑起来，告诉我实际访问地址，并提交这次改动。不要推远程。
 ```
 
 ## 对齐已有仓库
 
 ```text
 按 vibe-coding 检查当前项目：产品层内容补进 product/；缺的是本期需要的端才补，用不到的端不要新建。保持当前栈。
+```
+
+## 改完跑起来
+
+```text
+这次改动做完后把项目跑起来，告诉我 web / admin / server 的实际访问地址，并提交这次改动。不要推远程。
 ```
 
 ## 做最小可演示竖切

@@ -4,10 +4,14 @@ description: >-
   Help users scaffold projects under ~/workspace/projects. Create only the ends the
   project needs now (server, web, admin, deploy); defaults are Vue3+Ant Design Vue,
   Go Gin+GORM+MySQL, and Docker Compose. Always collect product-level material into
-  product/. When asked to install/update: upsert the skill, then ask whether to create
-  a project now; run env setup and scaffolding only after the user explicitly agrees.
-  Use when starting a vibe-coding project, generating a project skeleton, or aligning
-  repo structure — not merely because the skill was installed or updated.
+  product/. After the project exists, each change must leave runnable ends running
+  and report the actual access URLs. Version the project with git: init, ignore
+  secrets and build output, and commit after each landed change; do not push unless
+  asked. When asked to install/update: upsert the skill,
+  then ask whether to create a project now; run env setup and scaffolding only after
+  the user explicitly agrees. Use when starting a vibe-coding project, generating a
+  project skeleton, aligning repo structure, or changing an existing one — not merely
+  because the skill was installed or updated.
 ---
 
 # Vibe Coding
@@ -32,7 +36,8 @@ description: >-
 - **目录**：始终有 `product/` 与根 README。`server/` · `web/` · `admin/` · `deploy/` 只在本期需要时创建
 - **产品信息**：`product/README.md` 记录用户、目标、场景、范围、主路径、本期要哪些端。缺口一次给出 2～3 个方案并标明建议项；选定或按建议采用后写入，然后继续
 - **栈**（建到该端才用）：前端 Vue3 + Ant Design Vue；后端 Go + Gin + GORM + **MySQL**；部署 Docker + Docker Compose（含 MySQL 服务）
-- **本机工具**：只检测本期要建的端所需工具；已有可用则保持现状，缺失则装较新稳定版（见 `references/environment-setup.md`）——**仅在用户确认建项目/初始化环境后执行**
+- **版本管理**：项目根目录是 Git 仓库。新建则 `git init` 并提交；之后每次改完提交一次。不推远程，除非用户要求
+- **本机工具**：Git 每次都要。其余只检测本期要建的端所需工具；已有可用则保持现状，缺失则装较新稳定版（见 `references/environment-setup.md`）——**仅在用户确认建项目/初始化环境后执行**
 
 详情见 `references/project-scaffold.md`。
 
@@ -41,6 +46,7 @@ description: >-
 - 用户要求**安装或更新**本 skill（upsert → 询问是否建项目）
 - 用户明确说「按 vibe coding 开新项目 / 生成骨架 / 初始化环境 / 对齐目录」
 - 用户在询问后明确同意立即新建项目
+- 用户在已生成的项目里要求调整、改功能、改页面或改接口
 
 ## How to Help
 
@@ -64,7 +70,19 @@ description: >-
 4. **写入约定** — 原则摘要写入生成项目**根 README**（已有端的栈、目录、运行方式）；细则读 `references/principles.md`。
 5. **提示词** — 需要时把 `references/prompts.md` 的用法写进 README。
 6. **验收** — 走 `references/checklist.md`，缺口列给用户或当场补。
-7. **再开发** — 业务写在对应目录；`web` 与 `admin` 保持分工程；换栈需用户明确授权。
+7. **纳入 Git** — 按 `references/project-scaffold.md`：`git init`（已是仓库则跳过）、`.gitignore`、首次提交。
+8. **跑起来** — 已有可运行的端时，按下方 C 启动并告知访问地址。
+9. **再开发** — 业务写在对应目录；`web` 与 `admin` 保持分工程；换栈需用户明确授权。每次改完仍走 C，并再提交一次。
+
+### C. 改完即运行
+
+项目已经存在之后，每次调整或修改结束时：
+
+1. 先拉起依赖（有 `server` 时先让 MySQL 可用），再启动这次改动涉及的端。已经在跑的进程重启到包含本次改动。
+2. 从进程输出确认实际监听地址，写进回复。`web`、`admin` 给页面地址；`server` 给 API 根或健康检查地址。有几个可访问的端就列几个。
+3. 起不来就先修到能访问，再给地址。修不好就说明卡在哪，不报一个没监听的地址。
+4. 这次只改了 `product/`、还没有可运行的端时，说明暂无可访问地址，不空起服务。
+5. 这次改动落地后提交一次。提交说明写清为什么改。不推远程，除非用户要求。不改 git config，不改历史。密钥不入库。因缺少用户身份提交失败时告诉用户。
 
 ## Core Principles
 
@@ -75,6 +93,8 @@ description: >-
 - 栈保持默认，除非用户改
 - `web` 与 `admin` 分离
 - 小步可演示
+- 改完即运行，并给出实际访问地址
+- 用 Git 做版本管理；每次改完提交，不主动推远程
 
 见 `references/principles.md`。
 
@@ -99,6 +119,10 @@ upsert 后只问是否现在建项目。确认开工后，必要产品信息的�
 - 把 `web` 和 `admin` 揉成一个前端
 - 未授权换栈（例如改成 React）
 - 建了端却只写代码，README 里没有本地启动说明（有 `deploy` 时还要有 compose 说明）
+- 改完只写启动步骤，没有把项目跑起来
+- 访问地址是猜的端口，或服务没起来却给了地址
+- 新项目没有 Git 仓库，或改完不提交
+- 把 `.env`、密钥提交进库，或未要求就推远程、改 git config、改历史
 
 ## Deep Dive
 

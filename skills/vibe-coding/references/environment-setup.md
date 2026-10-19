@@ -4,7 +4,7 @@
 
 生成要建的端**之前**，先按用户操作系统检测工具链。未指定 OS 时，用本机信息判断（`uname`、`$OSTYPE`、或询问用户）。
 
-**只检测本期要创建的端。** 有 `server` 才看 Go；有 `web` 或 `admin` 才看 Node 与 npm；有 `deploy` 才看 Docker 与 Compose。本期只收产品材料、还不建端时，不安装这些工具。
+**Git 每次建项目都要有。** 其余只检测本期要创建的端：有 `server` 才看 Go；有 `web` 或 `admin` 才看 Node 与 npm；有 `deploy` 才看 Docker 与 Compose。本期只收产品材料、还不建端时，不安装这些端的工具。
 
 ## 策略
 
@@ -20,6 +20,7 @@
 
 | 工具 | 何时需要 | 检测示例 |
 | --- | --- | --- |
+| **Git** | 每次建项目或继续改项目 | `git --version` |
 | **Go** | 要建 `server` | `go version` |
 | **Node.js** | 要建 `web` 或 `admin` | `node -v`（建议 ≥ 20 LTS 稳定线；已有可用 Node 则保持） |
 | **包管理器** | 同上，前端依赖 | 默认 **npm**（随 Node）；若用户已用 pnpm/yarn 且可用则沿用，**新环境默认 npm** |
@@ -120,6 +121,7 @@ WSL2：若用户主要在 WSL 内开发，按 **Linux** 分支在 WSL 内安装�
 
 只勾本期要建的端：
 
+- [ ] `git --version` 成功
 - [ ] 要建 `server`：`go version` 成功
 - [ ] 要建 `web` 或 `admin`：`node -v` 与 `npm -v` 成功
 - [ ] 要建 `deploy`：`docker version` 成功（daemon 可连；若仅 CLI 无 daemon，在 README 注明需启动 Docker）；`docker compose version` 成功
