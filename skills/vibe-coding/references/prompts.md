@@ -5,16 +5,18 @@
 ## 开新项目
 
 ```text
-按 vibe-coding skill，先检测并补齐本机 Go / Node / Docker（缺什么装稳定版，已有保持），
-再在 ~/workspace/projects/<英文名> 生成项目骨架（server/web/admin/product/deploy），
-然后初始化 Vue3+Ant Design Vue（web/admin，npm）和 Go Gin+GORM+MySQL（server），
-deploy 用 docker compose（含 MySQL）；server 用 DATABASE_URL 或 DSN 连接。目标：<一句话>
+按 vibe-coding skill，在 ~/workspace/projects/<英文名> 开工。
+先把产品材料收进 product/。本期只建这些端：<例如 web，或 server+web+deploy>。
+只检测这些端要用的工具（缺什么装稳定版，已有保持）。
+建到的前端用 Vue3+Ant Design Vue（npm）；建了 server 再用 Go Gin+GORM+MySQL，
+deploy 用 docker compose（含 MySQL），server 用 DATABASE_URL 或 DSN 连接。
+用不到的端不要建。目标：<一句话>
 ```
 
 ## 对齐已有仓库
 
 ```text
-按 vibe-coding 的目录约定检查当前项目，缺什么补什么；保持当前栈。
+按 vibe-coding 检查当前项目：产品层内容补进 product/；缺的是本期需要的端才补，用不到的端不要新建。保持当前栈。
 ```
 
 ## 做最小可演示竖切

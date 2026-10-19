@@ -1,12 +1,13 @@
 ---
 name: vibe-coding
 description: >-
-  Help users scaffold new projects under ~/workspace/projects with Vue3+Ant Design Vue
-  (web/admin), Go Gin+GORM+MySQL (server), and Docker Compose (deploy, includes MySQL).
-  When asked to install/update: upsert the skill, then ask whether to create a project
-  now; run env setup and scaffolding only after the user explicitly agrees. Use when
-  starting a vibe-coding project, generating project skeleton, or aligning repo
-  structure — not merely because the skill was installed or updated.
+  Help users scaffold projects under ~/workspace/projects. Create only the ends the
+  project needs now (server, web, admin, deploy); defaults are Vue3+Ant Design Vue,
+  Go Gin+GORM+MySQL, and Docker Compose. Always collect product-level material into
+  product/. When asked to install/update: upsert the skill, then ask whether to create
+  a project now; run env setup and scaffolding only after the user explicitly agrees.
+  Use when starting a vibe-coding project, generating a project skeleton, or aligning
+  repo structure — not merely because the skill was installed or updated.
 ---
 
 # Vibe Coding
@@ -28,9 +29,10 @@ description: >-
 ## 生成项目默认约定
 
 - **根路径**：`~/workspace/projects/<project-name>/`（英文名）
-- **目录**：`server/` · `web/` · `admin/` · `product/` · `deploy/`
-- **栈**：前端 Vue3 + Ant Design Vue；后端 Go + Gin + GORM + **MySQL**；部署 Docker + Docker Compose（含 MySQL 服务）
-- **本机工具**：按 OS 检测；已有可用则保持现状，缺失则装较新稳定版（见 `references/environment-setup.md`）——**仅在用户确认建项目/初始化环境后执行**
+- **目录**：始终有 `product/` 与根 README。`server/` · `web/` · `admin/` · `deploy/` 只在本期需要时创建
+- **产品信息**：`product/README.md` 记录用户、目标、场景、范围、主路径、本期要哪些端。缺口一次给出 2～3 个方案并标明建议项；选定或按建议采用后写入，然后继续
+- **栈**（建到该端才用）：前端 Vue3 + Ant Design Vue；后端 Go + Gin + GORM + **MySQL**；部署 Docker + Docker Compose（含 MySQL 服务）
+- **本机工具**：只检测本期要建的端所需工具；已有可用则保持现状，缺失则装较新稳定版（见 `references/environment-setup.md`）——**仅在用户确认建项目/初始化环境后执行**
 
 详情见 `references/project-scaffold.md`。
 
@@ -56,19 +58,20 @@ description: >-
 
 **前置：** 用户已明确同意新建/初始化项目（见「何时开工」），或主动发出开新项目指令。
 
-1. **确认** — 英文项目名、一句话目标；栈默认如上，用户另说才改。
-2. **环境检测与安装** — 按 `references/environment-setup.md`：识别 OS → 检测 Go / Node+npm / Docker+Compose → **仅补缺失** → 复检通过。本步在生成骨架之前完成。
-3. **生成骨架** — 按 `references/project-scaffold.md` 建齐目录并做最小可运行初始化。
-4. **写入约定** — 原则摘要写入生成项目**根 README**（栈、目录、运行方式）；细则读 `references/principles.md`。
+1. **确认** — 英文项目名，以及 `product/` 里的必要产品信息。缺口收成一次方案选择（见 `references/project-scaffold.md`），选定或按建议采用后继续。栈默认如上，用户另说才改。
+2. **环境检测与安装** — 按 `references/environment-setup.md`：识别 OS → **只检测本期要建的端所需工具** → 仅补缺失 → 复检通过。还不建端时跳过。本步在生成对应端之前完成。
+3. **生成骨架** — 按 `references/project-scaffold.md`：产品材料写入 `product/`，只建本期需要的端并做最小可运行初始化。
+4. **写入约定** — 原则摘要写入生成项目**根 README**（已有端的栈、目录、运行方式）；细则读 `references/principles.md`。
 5. **提示词** — 需要时把 `references/prompts.md` 的用法写进 README。
 6. **验收** — 走 `references/checklist.md`，缺口列给用户或当场补。
 7. **再开发** — 业务写在对应目录；`web` 与 `admin` 保持分工程；换栈需用户明确授权。
-8. **产品页** — 用户明确要做结构草稿 / PRD /（无代码时）HTML 原型时，使用同仓的 `product-forge` skill；工件默认落在 `product/`。
 
 ## Core Principles
 
 - upsert 后先问再开工
-- 环境先于骨架，骨架先于业务（在已确认开工之后）
+- 环境先于要建的端，端先于业务（在已确认开工之后）
+- 用不到的端不建
+- 必要产品信息进 `product/`；缺口一次给方案，然后继续
 - 栈保持默认，除非用户改
 - `web` 与 `admin` 分离
 - 小步可演示
@@ -77,24 +80,25 @@ description: >-
 
 ## Questions to Help Users
 
-（upsert 后先问是否建项目；确认建项目后再问细节）
+upsert 后只问是否现在建项目。确认开工后，必要产品信息的缺口合成**一次**选择，给出 2～3 个方案并标明建议项；用户选定或未选时按建议写入 `product/`，然后继续。本机系统自己探测。
 
-- 「要现在按 vibe-coding 新建项目吗？（会做环境检测并生成骨架）」
-- 「项目英文目录名用什么？」
-- 「一句话目标？第一期最小演示是什么？」
-- 「本机是 macOS / Linux / Windows？（不明时我先探测）」
-- （数据库默认 MySQL；用户要换库时再确认）
+- 「要现在按 vibe-coding 新建项目吗？」
+- 缺口示例：「本期可以按这三种走：A 只做网页；B 网页 + 接口；C 网页 + 接口 + 后台。建议 B，因为……你选哪个？」
 
 ## Common Mistakes to Flag
 
 - upsert 完成后未询问就自动建项目或装工具
 - 用户说先不 / 未明确同意却继续开工
-- 跳过环境检测就生成项目，导致无法编译/跑前端/起 compose
+- 跳过环境检测就生成本期需要的端，导致无法编译、跑前端或起 compose
 - 对已可用工具强行升级或换成 beta/nightly
-- 缺目录就写业务
+- 用不到的 `server` / `web` / `admin` / `deploy` 先建空目录
+- 必要产品信息没写入 `product/` 就写代码
+- 同一件事反复追问，或不给方案只抛问题
+- 名词、原型等非必要项没齐就停住不开工
+- 本期需要的端还没建就写业务
 - 把 `web` 和 `admin` 揉成一个前端
 - 未授权换栈（例如改成 React）
-- 只写代码、README 里没有 compose / 本地启动说明
+- 建了端却只写代码，README 里没有本地启动说明（有 `deploy` 时还要有 compose 说明）
 
 ## Deep Dive
 

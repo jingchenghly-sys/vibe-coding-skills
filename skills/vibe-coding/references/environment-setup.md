@@ -2,7 +2,9 @@
 
 **触发：** 用户已确认新建项目（或主动要求生成骨架 / 初始化本机环境）时再执行本文件。仅 upsert skill 或用户尚未同意建项目时，不跑本文件。
 
-生成/初始化业务项目**之前**，先按用户操作系统检测工具链。未指定 OS 时，用本机信息判断（`uname`、`$OSTYPE`、或询问用户）。
+生成要建的端**之前**，先按用户操作系统检测工具链。未指定 OS 时，用本机信息判断（`uname`、`$OSTYPE`、或询问用户）。
+
+**只检测本期要创建的端。** 有 `server` 才看 Go；有 `web` 或 `admin` 才看 Node 与 npm；有 `deploy` 才看 Docker 与 Compose。本期只收产品材料、还不建端时，不安装这些工具。
 
 ## 策略
 
@@ -16,22 +18,22 @@
 
 ## 需要覆盖的工具
 
-| 工具 | 用途 | 检测示例 |
+| 工具 | 何时需要 | 检测示例 |
 | --- | --- | --- |
-| **Go** | `server`（Gin + GORM） | `go version` |
-| **Node.js** | `web` / `admin`（Vue3） | `node -v`（建议 ≥ 20 LTS 稳定线；已有可用 Node 则保持） |
-| **包管理器** | 前端依赖 | 默认 **npm**（随 Node）；若用户已用 pnpm/yarn 且可用则沿用，**新环境默认 npm** |
-| **Docker** | 镜像构建 | `docker version` |
-| **Docker Compose** | `deploy` 编排 | `docker compose version`（优先 Compose V2 插件；旧 `docker-compose` 可用亦可） |
+| **Go** | 要建 `server` | `go version` |
+| **Node.js** | 要建 `web` 或 `admin` | `node -v`（建议 ≥ 20 LTS 稳定线；已有可用 Node 则保持） |
+| **包管理器** | 同上，前端依赖 | 默认 **npm**（随 Node）；若用户已用 pnpm/yarn 且可用则沿用，**新环境默认 npm** |
+| **Docker** | 要建 `deploy` | `docker version` |
+| **Docker Compose** | 要建 `deploy` | `docker compose version`（优先 Compose V2 插件；旧 `docker-compose` 可用亦可） |
 
 前端栈：Vue3 + Ant Design Vue。后端：Go + Gin + GORM + **MySQL**。本文件只负责**本机工具链**。
 
-**数据库：** 默认由项目 `deploy/docker-compose` 起 MySQL 稳定版服务，一般**不必**本机单独装 MySQL；有 Docker 即可。若用户本机已有可用 MySQL 并希望直连，保持其版本，在 README / `.env` 里改连接串即可。
+**数据库：** 有 `server` 时，默认由项目 `deploy/docker-compose` 起 MySQL 稳定版服务，一般**不必**本机单独装 MySQL；有 Docker 即可。没有 `server` 则不为此装 Docker、也不配 MySQL。若用户本机已有可用 MySQL 并希望直连，保持其版本，在 README / `.env` 里改连接串即可。
 
 ## 检测流程（Agent）
 
 1. 识别 OS：`macOS` / `Linux` / `Windows`。
-2. 逐项跑检测命令；记录「已有 / 缺失」。
+2. 只对上表里本期需要的工具跑检测；记录「已有 / 缺失 / 本期不需要」。
 3. **只安装缺失项**；已有则跳过。
 4. 安装后复检；失败则给出官方文档链接与手工步骤，并如实说明状态。
 5. 把结果简短写进生成项目根 `README.md`「开发环境」一节（或对话里交代），再进入脚手架生成。
@@ -116,10 +118,12 @@ WSL2：若用户主要在 WSL 内开发，按 **Linux** 分支在 WSL 内安装�
 
 ## 安装后最低验收
 
-- [ ] `go version` 成功
-- [ ] `node -v` 与 `npm -v` 成功
-- [ ] `docker version` 成功（daemon 可连；若仅 CLI 无 daemon，在 README 注明需启动 Docker）
-- [ ] `docker compose version` 成功
-- [ ] 用户已有可用工具仍保持原版本
+只勾本期要建的端：
 
-然后再执行 `project-scaffold.md`（默认栈含 MySQL：由 compose 提供库服务）。
+- [ ] 要建 `server`：`go version` 成功
+- [ ] 要建 `web` 或 `admin`：`node -v` 与 `npm -v` 成功
+- [ ] 要建 `deploy`：`docker version` 成功（daemon 可连；若仅 CLI 无 daemon，在 README 注明需启动 Docker）；`docker compose version` 成功
+- [ ] 用户已有可用工具仍保持原版本
+- [ ] 未为本期不建的端安装工具
+
+然后再执行 `project-scaffold.md`。有 `server` 时默认 MySQL 由 compose 提供。

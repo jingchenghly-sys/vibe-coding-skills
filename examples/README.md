@@ -9,14 +9,9 @@
 
 ```text
 ~/workspace/projects/demo-app/
-  server/  web/  admin/  product/  deploy/  README.md
+  product/  README.md
+  # 本期需要的端才出现。例如只要网页和接口：
+  server/  web/  deploy/
 ```
 
-栈为 Vue3+Ant Design Vue、Go Gin+GORM+MySQL、Docker Compose（含 MySQL）；前端默认 npm。
-
-## product-forge
-
-1. 可与 vibe-coding 一并 upsert。装好不会自动写草稿。
-2. 明确说：「按 product-forge，做个人名片里的个人主页」。
-3. 无代码时预期：`{项目}/概述.md` + `{模块}/结构草稿.json` + `PRD.md` + `原型.html`。
-4. 已在 vibe-coding 工程内时：工件落在 `product/`，有代码则同步改 `web`/`admin`/`server`。
+建到的端才用对应栈：Vue3+Ant Design Vue、Go Gin+GORM+MySQL、Docker Compose（含 MySQL）；前端默认 npm。用不到的端不建。
