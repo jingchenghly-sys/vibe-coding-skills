@@ -7,8 +7,8 @@ description: >-
   elasticsearch, and later ones). Each service uses only its own database or namespace.
   On startup, start only the components this project needs. Always collect product-level material into
   product/. Each page being built has product/<page>/结构草稿.json; do not write
-  PRD or HTML prototypes unless asked. After the project exists, each change must leave runnable ends running
-  and report the actual access URLs. Version the project with git: init, ignore
+  PRD or HTML prototypes unless asked. After each code change, restart the affected
+  services, verify the change in a browser, and report the actual access URLs. Version the project with git: init, ignore
   secrets and build output, and commit after each landed change; do not push unless
   asked. When asked to install/update: upsert the skill,
   then ask whether to create a project now; run env setup and scaffolding only after
@@ -74,18 +74,19 @@ description: >-
 5. **提示词** — 需要时把 `references/prompts.md` 的用法写进 README。
 6. **验收** — 走 `references/checklist.md`，缺口列给用户或当场补。
 7. **纳入 Git** — 按 `references/project-scaffold.md`：`git init`（已是仓库则跳过）、`.gitignore`、首次提交。
-8. **跑起来** — 已有可运行的端时，按下方 C 启动并告知访问地址。
+8. **跑起来并自测** — 已有可运行的端时，按下方 C 重启到本次改动，用浏览器走通，再告知访问地址。
 9. **再开发** — 业务写在对应目录；改页面先改 `product/<页面名>/结构草稿.json`。`web` 与 `admin` 保持分工程；换栈需用户明确授权。每次改完仍走 C，并再提交一次。
 
-### C. 改完即运行
+### C. 改完即运行，并用浏览器自测
 
-项目已经存在之后，每次调整或修改结束时：
+项目已经存在之后，每次写完代码或调整结束时：
 
 1. 先按本项目的依赖，只启动 `/srv/docker/` 里要用的组件（有 `server` 默认是 MySQL；Redis、Elasticsearch 等本期用到才启动），并备好本服务自己的库或命名空间。已经在跑的进程重启到包含本次改动。不用的组件不启动，也不因为这个项目把共用组件停掉。
-2. 从进程输出确认实际监听地址，写进回复。`web`、`admin` 给页面地址；`server` 给 API 根或健康检查地址。有几个可访问的端就列几个。
-3. 起不来就先修到能访问，再给地址。修不好就说明卡在哪，不报一个没监听的地址。
-4. 这次只改了 `product/`、还没有可运行的端时，说明暂无可访问地址，不空起服务。
-5. 这次改动落地后提交一次。提交说明写清为什么改。不推远程，除非用户要求。不改 git config，不改历史。密钥不入库。因缺少用户身份提交失败时告诉用户。
+2. 从进程输出确认实际监听地址。`web`、`admin` 是页面地址；`server` 是 API 根或健康检查地址。
+3. **用浏览器自测这次改动。** 有页面时打开对应地址，按本次改的路径点击、输入、提交，确认结果与 `结构草稿.json` 一致。改了多页或共用数据时，相关页面也打开看一遍。只有接口、没有页面时，在浏览器打开该接口地址，核对返回。自测失败就修，修好再测。
+4. 起不来或自测没过，先说明卡在哪，不把地址当作已经完成。通过后，在回复里给出地址，并写明浏览器里走了哪条路径、结果是什么。
+5. 这次只改了 `product/`、还没有可运行的端时，说明暂无可访问地址，不空起服务，也不假装做过浏览器自测。
+6. 自测通过（或确认这次没有可运行的端）后再提交一次。提交说明写清为什么改。不推远程，除非用户要求。不改 git config，不改历史。密钥不入库。因缺少用户身份提交失败时告诉用户。
 
 ## Core Principles
 
@@ -97,7 +98,7 @@ description: >-
 - 栈保持默认，除非用户改
 - `web` 与 `admin` 分离
 - 小步可演示
-- 改完即运行，并给出实际访问地址
+- 改完即重启服务，用浏览器走通这次改动，再给出实际访问地址
 - 用 Git 做版本管理；每次改完提交，不主动推远程
 
 见 `references/principles.md`。
@@ -127,7 +128,9 @@ upsert 后只问是否现在建项目。确认开工后，必要产品信息的�
 - 在业务项目的 compose 里再起一套基础设施
 - 启动时把本项目用不到的 Redis、Elasticsearch 或其他组件也拉起来
 - 改完只写启动步骤，没有把项目跑起来
-- 访问地址是猜的端口，或服务没起来却给了地址
+- 服务起来了，但没有用浏览器走这次改动的路径
+- 只打开首页或只看截图，没有点击、输入、提交
+- 访问地址是猜的端口，或服务没起来、自测没过却把地址当作完成
 - 新项目没有 Git 仓库，或改完不提交
 - 把 `.env`、密钥提交进库，或未要求就推远程、改 git config、改历史
 
