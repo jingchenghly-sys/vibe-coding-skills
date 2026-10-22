@@ -3,8 +3,11 @@ name: vibe-coding
 description: >-
   Help users scaffold projects under ~/workspace/projects. Create only the ends the
   project needs now (server, web, admin, deploy); defaults are Vue3+Ant Design Vue,
-  Go Gin+GORM+MySQL, and Docker Compose. Always collect product-level material into
-  product/. After the project exists, each change must leave runnable ends running
+  Go Gin+GORM, and shared infrastructure under /srv/docker/<component> (mysql, redis,
+  elasticsearch, and later ones). Each service uses only its own database or namespace.
+  On startup, start only the components this project needs. Always collect product-level material into
+  product/. Each page being built has product/<page>/结构草稿.json; do not write
+  PRD or HTML prototypes unless asked. After the project exists, each change must leave runnable ends running
   and report the actual access URLs. Version the project with git: init, ignore
   secrets and build output, and commit after each landed change; do not push unless
   asked. When asked to install/update: upsert the skill,
@@ -34,8 +37,8 @@ description: >-
 
 - **根路径**：`~/workspace/projects/<project-name>/`（英文名）
 - **目录**：始终有 `product/` 与根 README。`server/` · `web/` · `admin/` · `deploy/` 只在本期需要时创建
-- **产品信息**：`product/README.md` 记录用户、目标、场景、范围、主路径、本期要哪些端。缺口一次给出 2～3 个方案并标明建议项；选定或按建议采用后写入，然后继续
-- **栈**（建到该端才用）：前端 Vue3 + Ant Design Vue；后端 Go + Gin + GORM + **MySQL**；部署 Docker + Docker Compose（含 MySQL 服务）
+- **产品信息**：`product/README.md` 记录用户、目标、场景、范围、主路径、本期要哪些端。要做的每一页写 `product/<页面名>/结构草稿.json`（见 `references/structure-draft.md`）。不写 PRD，不写 HTML 原型。缺口一次给出 2～3 个方案并标明建议项；选定或按建议采用后写入，然后继续
+- **栈**（建到该端才用）：前端 Vue3 + Ant Design Vue；后端 Go + Gin + GORM。MySQL、Redis、Elasticsearch 等基础设施都在 `/srv/docker/<组件>/` 全机共用；每个服务只用自己的库或命名空间。`deploy/` 只编排本服务
 - **版本管理**：项目根目录是 Git 仓库。新建则 `git init` 并提交；之后每次改完提交一次。不推远程，除非用户要求
 - **本机工具**：Git 每次都要。其余只检测本期要建的端所需工具；已有可用则保持现状，缺失则装较新稳定版（见 `references/environment-setup.md`）——**仅在用户确认建项目/初始化环境后执行**
 
@@ -66,19 +69,19 @@ description: >-
 
 1. **确认** — 英文项目名，以及 `product/` 里的必要产品信息。缺口收成一次方案选择（见 `references/project-scaffold.md`），选定或按建议采用后继续。栈默认如上，用户另说才改。
 2. **环境检测与安装** — 按 `references/environment-setup.md`：识别 OS → **只检测本期要建的端所需工具** → 仅补缺失 → 复检通过。还不建端时跳过。本步在生成对应端之前完成。
-3. **生成骨架** — 按 `references/project-scaffold.md`：产品材料写入 `product/`，只建本期需要的端并做最小可运行初始化。
+3. **生成骨架** — 按 `references/project-scaffold.md`：产品材料写入 `product/`，要做的页面各写一份结构草稿，只建本期需要的端并做最小可运行初始化。
 4. **写入约定** — 原则摘要写入生成项目**根 README**（已有端的栈、目录、运行方式）；细则读 `references/principles.md`。
 5. **提示词** — 需要时把 `references/prompts.md` 的用法写进 README。
 6. **验收** — 走 `references/checklist.md`，缺口列给用户或当场补。
 7. **纳入 Git** — 按 `references/project-scaffold.md`：`git init`（已是仓库则跳过）、`.gitignore`、首次提交。
 8. **跑起来** — 已有可运行的端时，按下方 C 启动并告知访问地址。
-9. **再开发** — 业务写在对应目录；`web` 与 `admin` 保持分工程；换栈需用户明确授权。每次改完仍走 C，并再提交一次。
+9. **再开发** — 业务写在对应目录；改页面先改 `product/<页面名>/结构草稿.json`。`web` 与 `admin` 保持分工程；换栈需用户明确授权。每次改完仍走 C，并再提交一次。
 
 ### C. 改完即运行
 
 项目已经存在之后，每次调整或修改结束时：
 
-1. 先拉起依赖（有 `server` 时先让 MySQL 可用），再启动这次改动涉及的端。已经在跑的进程重启到包含本次改动。
+1. 先按本项目的依赖，只启动 `/srv/docker/` 里要用的组件（有 `server` 默认是 MySQL；Redis、Elasticsearch 等本期用到才启动），并备好本服务自己的库或命名空间。已经在跑的进程重启到包含本次改动。不用的组件不启动，也不因为这个项目把共用组件停掉。
 2. 从进程输出确认实际监听地址，写进回复。`web`、`admin` 给页面地址；`server` 给 API 根或健康检查地址。有几个可访问的端就列几个。
 3. 起不来就先修到能访问，再给地址。修不好就说明卡在哪，不报一个没监听的地址。
 4. 这次只改了 `product/`、还没有可运行的端时，说明暂无可访问地址，不空起服务。
@@ -89,7 +92,8 @@ description: >-
 - upsert 后先问再开工
 - 环境先于要建的端，端先于业务（在已确认开工之后）
 - 用不到的端不建
-- 必要产品信息进 `product/`；缺口一次给方案，然后继续
+- 必要产品信息进 `product/`；页面结构草稿只放 `product/<页面名>/结构草稿.json`
+- 缺口一次给方案，然后继续
 - 栈保持默认，除非用户改
 - `web` 与 `admin` 分离
 - 小步可演示
@@ -109,16 +113,19 @@ upsert 后只问是否现在建项目。确认开工后，必要产品信息的�
 
 - upsert 完成后未询问就自动建项目或装工具
 - 用户说先不 / 未明确同意却继续开工
-- 跳过环境检测就生成本期需要的端，导致无法编译、跑前端或起 compose
+- 跳过环境检测就生成本期需要的端，导致无法编译、跑前端或连上要用的基础设施
 - 对已可用工具强行升级或换成 beta/nightly
 - 用不到的 `server` / `web` / `admin` / `deploy` 先建空目录
 - 必要产品信息没写入 `product/` 就写代码
+- 页面结构写在对话、`web/` 或 `admin/` 里，没有 `product/<页面名>/结构草稿.json`
+- 没让写就生成 PRD 或 HTML 原型
 - 同一件事反复追问，或不给方案只抛问题
-- 名词、原型等非必要项没齐就停住不开工
 - 本期需要的端还没建就写业务
 - 把 `web` 和 `admin` 揉成一个前端
 - 未授权换栈（例如改成 React）
-- 建了端却只写代码，README 里没有本地启动说明（有 `deploy` 时还要有 compose 说明）
+- 建了端却只写代码，README 里没有本地启动说明（要写本项目用到的组件、位置，以及自己的库或命名空间）
+- 在业务项目的 compose 里再起一套基础设施
+- 启动时把本项目用不到的 Redis、Elasticsearch 或其他组件也拉起来
 - 改完只写启动步骤，没有把项目跑起来
 - 访问地址是猜的端口，或服务没起来却给了地址
 - 新项目没有 Git 仓库，或改完不提交
@@ -128,6 +135,8 @@ upsert 后只问是否现在建项目。确认开工后，必要产品信息的�
 
 - `references/environment-setup.md` — OS 分支检测与安装
 - `references/project-scaffold.md` — 生成项目的目录与初始化
+- `references/shared-infra.md` — 共用基础设施的目录，以及启动时只拉本项目要用的组件
+- `references/structure-draft.md` — 页面结构草稿放在哪、写什么
 - `references/principles.md` — 原则
 - `references/prompts.md` — 常用提示
 - `references/checklist.md` — 验收清单

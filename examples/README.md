@@ -9,9 +9,10 @@
 
 ```text
 ~/workspace/projects/demo-app/
-  product/  README.md
+  product/README.md
+  product/<页面名>/结构草稿.json
   # 本期需要的端才出现。例如只要网页和接口：
   server/  web/  deploy/
 ```
 
-建到的端才用对应栈：Vue3+Ant Design Vue、Go Gin+GORM+MySQL、Docker Compose（含 MySQL）；前端默认 npm。用不到的端不建。
+建到的端才用对应栈：Vue3+Ant Design Vue、Go Gin+GORM；前端默认 npm。基础设施用 `/srv/docker/<组件>/`，启动时只拉本项目要用的。用不到的端不建。

@@ -6,10 +6,11 @@
 
 ```text
 按 vibe-coding skill，在 ~/workspace/projects/<英文名> 开工。
-先把产品材料收进 product/。本期只建这些端：<例如 web，或 server+web+deploy>。
+先把产品材料收进 product/。要做的每一页写 product/<页面名>/结构草稿.json，不写 PRD 和 HTML 原型。本期只建这些端：<例如 web，或 server+web+deploy>。
 只检测这些端要用的工具（缺什么装稳定版，已有保持）。
-建到的前端用 Vue3+Ant Design Vue（npm）；建了 server 再用 Go Gin+GORM+MySQL，
-deploy 用 docker compose（含 MySQL），server 用 DATABASE_URL 或 DSN 连接。
+建到的前端用 Vue3+Ant Design Vue（npm）；建了 server 再用 Go Gin+GORM。
+基础设施都用 /srv/docker/<组件> 这一份（mysql、redis、elasticsearch 以及以后的）。启动时只拉本项目要用的。
+有 server 时在共用 MySQL 上为本服务建自己的库，用 DATABASE_URL 或 DSN 连接。项目 compose 里不要再起基础设施。
 用不到的端不要建。用 Git 做版本管理：初始化仓库、写 .gitignore、首次提交。目标：<一句话>
 完成后把项目跑起来，告诉我实际访问地址，并提交这次改动。不要推远程。
 ```
@@ -17,7 +18,7 @@ deploy 用 docker compose（含 MySQL），server 用 DATABASE_URL 或 DSN 连�
 ## 对齐已有仓库
 
 ```text
-按 vibe-coding 检查当前项目：产品层内容补进 product/；缺的是本期需要的端才补，用不到的端不要新建。保持当前栈。
+按 vibe-coding 检查当前项目：产品层内容补进 product/；缺的是本期需要的端才补，用不到的端不要新建。基础设施改为共用 /srv/docker/<组件>，启动时只拉本项目要用的。保持当前栈。
 ```
 
 ## 改完跑起来
@@ -35,7 +36,7 @@ deploy 用 docker compose（含 MySQL），server 用 DATABASE_URL 或 DSN 连�
 ## 准备本地跑起来
 
 ```text
-补齐 deploy/docker-compose（含 MySQL）与 README、.env.example，让我能一条命令（或两步）起库和服务。
+只启动本项目要用的 /srv/docker/<组件>，备好自己的库或命名空间，并补齐 README 与 .env.example。不要在项目 compose 里再起一套基础设施。
 ```
 
 ## 只补环境
