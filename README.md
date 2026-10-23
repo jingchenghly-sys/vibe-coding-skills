@@ -6,7 +6,7 @@
 
 | Skill | 路径 | 做什么 |
 | --- | --- | --- |
-| **vibe-coding** | `skills/vibe-coding/` | 用户确认建项目后：产品材料收进 `product/`，页面结构草稿写在 `product/<页面名>/结构草稿.json`（不写 PRD 和 HTML 原型）；只建本期需要的端（`server` / `web` / `admin` / `deploy`），并只检测这些端的工具。之后每次改完重启服务，用浏览器走通这次改动，再告知实际访问地址，并用 Git 提交这次改动（不主动推远程）。默认栈：Vue3+Ant Design Vue、Go Gin+GORM；基础设施共用 `/srv/docker/<组件>/`，启动时只拉本项目要用的 |
+| **vibe-coding** | `skills/vibe-coding/` | 用户确认建项目后：产品材料收进 `product/`，页面结构草稿写在 `product/<页面名>/结构草稿.json`（不写 PRD 和 HTML 原型）；只建本期需要的端（`server` / `web` / `admin` / `deploy`），并只检测这些端的工具。之后每次改完重启服务，用浏览器走通这次改动，再告知实际访问地址，并用 Git 提交这次改动（不主动推远程）。安装或开工时检查并安装 [frontend-design](https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md)，页面视觉按它来。默认栈：Vue3+Ant Design Vue、Go Gin+GORM；基础设施共用 `/srv/docker/<组件>/`，启动时只拉本项目要用的 |
 
 用法：先 upsert skill → 询问是否新建项目 → 用户明确同意后再做环境检测与骨架。**安装或更新 ≠ 自动开工**。
 
@@ -30,8 +30,9 @@
 规则：
 1. 找到本机或本项目的 skills 目录（如 .cursor/skills、.claude/skills、.agents/skills，或用户级 ~/.cursor/skills 等）。
 2. 对每个列出的 skill：目标目录不存在则拷贝安装；已存在则用仓库里 skills/<name>/ 的当前内容覆盖更新（含 references/）。
-3. upsert 完成后：简短回报装到了哪个目录、新建还是更新了哪些 skill；然后询问我是否现在按 vibe-coding 新建项目（先把产品材料收进 product/，再按本期需要建端并检测对应工具）。
-4. 等我明确同意后再开工；我说先不、或未明确同意时停住。
+3. 同一 skills 目录检查 frontend-design：没有 frontend-design/SKILL.md 则从 https://github.com/anthropics/skills 的 skills/frontend-design/ 安装；已有则不覆盖。
+4. upsert 完成后：简短回报装到了哪个目录、新建还是更新了哪些 skill，以及 frontend-design 是已有还是刚装上；然后询问我是否现在按 vibe-coding 新建项目（先把产品材料收进 product/，再按本期需要建端并检测对应工具）。
+5. 等我明确同意后再开工；我说先不、或未明确同意时停住。做 web/admin 前先读已安装的 frontend-design/SKILL.md。
 ```
 
 ### 手动安装（可选）
@@ -41,6 +42,11 @@ git clone https://github.com/jingchenghly-sys/vibe-coding-skills.git
 SKILLS_ROOT=.claude/skills   # 或 .agents/skills 或 .cursor/skills
 rm -rf "$SKILLS_ROOT/vibe-coding"
 cp -R vibe-coding-skills/skills/vibe-coding "$SKILLS_ROOT/"
+# frontend-design：没有才装，已有不覆盖
+if [ ! -f "$SKILLS_ROOT/frontend-design/SKILL.md" ]; then
+  git clone --depth 1 https://github.com/anthropics/skills.git /tmp/anthropics-skills
+  cp -R /tmp/anthropics-skills/skills/frontend-design "$SKILLS_ROOT/"
+fi
 ```
 
 用户级同理，拷到 `~/.claude/skills/`、`~/.agents/skills/` 或 `~/.cursor/skills/`。
@@ -77,6 +83,7 @@ vibe-coding-skills/
         │   ├── project-scaffold.md
         │   ├── shared-infra.md
         │   ├── structure-draft.md
+        │   ├── frontend-design.md
         │   ├── principles.md
         │   ├── prompts.md
         │   └── checklist.md

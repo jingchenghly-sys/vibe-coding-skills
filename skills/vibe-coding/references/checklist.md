@@ -18,8 +18,9 @@
 ## 栈（只核已创建的端）
 
 - [ ] `server`：Go + Gin + GORM → 共用 MySQL 上本服务自己的库（读 `DATABASE_URL` 或等价 DSN）
-- [ ] `web`：Vue3 + Ant Design Vue
-- [ ] `admin`：Vue3 + Ant Design Vue，且与 `web` 分工程
+- [ ] `web`：Vue3 + Ant Design Vue，视觉按已安装的 frontend-design
+- [ ] `admin`：Vue3 + Ant Design Vue，且与 `web` 分工程；视觉同样按 frontend-design
+- [ ] 做了页面时，`frontend-design/SKILL.md` 已在同一 skills 目录，且本次阅读过
 - [ ] 本项目要用的每个组件都在 `/srv/docker/<组件>/`，目录符合 `shared-infra.md`，且启动时只拉起这些
 - [ ] 有 `server` 时，共用 MySQL 上已有本服务的库和专属账号，权限只覆盖该库
 - [ ] 业务密码来自 `/srv/docker/mysql/secrets/<服务名>.txt`；root 密码未进入业务进程环境和仓库
@@ -30,6 +31,7 @@
 
 - [ ] 已有可运行的端时，进程已重启并包含本次改动
 - [ ] 已用浏览器自测：有页面则走通本次改动的点击、输入、提交；只有接口则打开该接口地址并核对返回
+- [ ] 这次任务只用了一个浏览器标签；后续调整在该标签里跳转或刷新，没有另开标签
 - [ ] 自测通过后才把实际访问地址告诉用户，并写明走了哪条路径
 - [ ] 地址来自进程监听，不是猜的端口
 - [ ] 只有 `product/`、没有端时，已说明暂无可访问地址，且未假装做过浏览器自测
