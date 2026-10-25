@@ -6,7 +6,7 @@
 
 | Skill | 路径 | 做什么 |
 | --- | --- | --- |
-| **vibe-coding** | `skills/vibe-coding/` | 用户确认建项目后：产品材料收进 `product/`，页面结构草稿写在 `product/<页面名>/结构草稿.json`（不写 PRD 和 HTML 原型）；只建本期需要的端（`server` / `web` / `admin` / `deploy`），并只检测这些端的工具。之后每次改完重启服务，用浏览器走通这次改动，再告知实际访问地址，并用 Git 提交这次改动（不主动推远程）。安装或开工时检查并安装 [frontend-design](https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md)，页面视觉按它来。默认栈：Vue3+Ant Design Vue、Go Gin+GORM；基础设施共用 `/srv/docker/<组件>/`，启动时只拉本项目要用的 |
+| **vibe-coding** | `skills/vibe-coding/` | 用户确认后，在 `~/workspace/projects/<name>/` 按本期需要生成并推进项目。约定见 `skills/vibe-coding/SKILL.md` |
 
 用法：先 upsert skill → 询问是否新建项目 → 用户明确同意后再做环境检测与骨架。**安装或更新 ≠ 自动开工**。
 
@@ -78,17 +78,12 @@ vibe-coding-skills/
 └── skills/
     └── vibe-coding/
         ├── SKILL.md
-        ├── references/
-        │   ├── environment-setup.md
-        │   ├── project-scaffold.md
-        │   ├── shared-infra.md
-        │   ├── structure-draft.md
-        │   ├── frontend-design.md
-        │   ├── principles.md
-        │   ├── prompts.md
-        │   └── checklist.md
-        ├── assets/templates/README.md
-        └── scripts/README.md
+        └── references/
+            ├── environment-setup.md
+            ├── project-scaffold.md
+            ├── shared-infra.md
+            ├── structure-draft.md
+            └── frontend-design.md
 ```
 
 新增 skill：在 `skills/` 下再建 kebab-case 目录，放入带 frontmatter 的 `SKILL.md`（见 `CONTRIBUTING.md`）。

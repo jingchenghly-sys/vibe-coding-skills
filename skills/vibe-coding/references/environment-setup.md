@@ -4,7 +4,7 @@
 
 生成要建的端**之前**，先按用户操作系统检测工具链。未指定 OS 时，用本机信息判断（`uname`、`$OSTYPE`、或询问用户）。
 
-**Git 每次建项目都要有。** 其余只检测本期要创建的端：有 `server` 才看 Go；有 `web` 或 `admin` 才看 Node 与 npm；本项目要用共用基础设施或要建 `deploy` 才看 Docker 与 Compose。本期只收产品材料、还不建端时，不安装这些端的工具。
+**Git 每次建项目都要有。** 其余只检测本期要创建的端：有 `server` 才看 Go；有 `web` 或 `admin` 才看 Node 与 npm；本项目要用共用基础设施或要建 `deploy` 才看 Docker 与 Compose。
 
 ## 策略
 
@@ -25,11 +25,9 @@
 | **Node.js** | 要建 `web` 或 `admin` | `node -v`（建议 ≥ 20 LTS 稳定线；已有可用 Node 则保持） |
 | **包管理器** | 同上，前端依赖 | 默认 **npm**（随 Node）；若用户已用 pnpm/yarn 且可用则沿用，**新环境默认 npm** |
 | **Docker** | 本项目要用共用基础设施，或要建 `deploy` | `docker version` |
-| **Docker Compose** | 同上 | `docker compose version`（优先 Compose V2 插件；旧 `docker-compose` 可用亦可） |
+| **Docker Compose** | 同上 | `docker compose version` |
 
-前端栈：Vue3 + Ant Design Vue。后端：Go + Gin + GORM + **MySQL**。本文件只负责**本机工具链**。
-
-**基础设施：** MySQL、Redis、Elasticsearch 等都用 `/srv/docker/<组件>/` 的共用实例，见 `shared-infra.md`。不在项目 compose 里再起一套，也不在本机另行安装。本项目不用的组件不启动。没有这类依赖、也不建 `deploy` 时，不为此装 Docker。用户要求直连本机已有实例时，保持其版本，在 README / `.env` 里改连接串。
+本文件只负责本机工具链。MySQL、Redis、Elasticsearch 不装到宿主机上，连接方式见 `shared-infra.md`。
 
 ## 检测流程（Agent）
 
@@ -53,8 +51,6 @@ brew install node          # 当前稳定 Node
 brew install --cask docker # Docker Desktop（含 compose 插件）
 # 装完后启动 Docker Desktop，再复检 docker / docker compose
 ```
-
-说明：若已有 Go/Node/Docker 且命令可用，跳过对应 brew install。
 
 ## Linux（按发行版）
 
@@ -126,6 +122,5 @@ WSL2：若用户主要在 WSL 内开发，按 **Linux** 分支在 WSL 内安装�
 - [ ] 要建 `web` 或 `admin`：`node -v` 与 `npm -v` 成功
 - [ ] 本项目要用共用基础设施，或要建 `deploy`：`docker version` 成功（daemon 可连；若仅 CLI 无 daemon，在 README 注明需启动 Docker）；`docker compose version` 成功
 - [ ] 用户已有可用工具仍保持原版本
-- [ ] 未为本期不建的端安装工具
 
-然后再执行 `project-scaffold.md`。有 `server` 时使用共用 MySQL，并为该服务创建自己的库。其他组件本期用到才启动。
+然后再执行 `project-scaffold.md`。有 `server` 时使用共用 MySQL，并为该服务创建自己的库。

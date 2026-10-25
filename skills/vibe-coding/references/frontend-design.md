@@ -18,10 +18,10 @@ rm -rf "$SKILLS_ROOT/frontend-design"
 cp -R /tmp/anthropics-skills/skills/frontend-design "$SKILLS_ROOT/"
 ```
 
-装完确认 `$SKILLS_ROOT/frontend-design/SKILL.md` 存在。失败则停住前端工作并说明原因。后端、产品草稿、基础设施不受这次失败挡住。
+装完确认 `$SKILLS_ROOT/frontend-design/SKILL.md` 存在。失败则停住前端工作并说明原因。
 
 ## 怎么用
 
 写或改页面之前，阅读已安装的 `frontend-design/SKILL.md`，按它做视觉：配色、字体、版式、动效、文案。不凭记忆替代这份文件。
 
-组件栈仍是 Vue3 + Ant Design Vue。页面上有什么仍只来自 `product/<页面名>/结构草稿.json`。frontend-design 决定这些块怎么呈现，不新增草稿里没有的区块，也不改成另一套前端框架。
+页面上有什么只来自 `product/<页面名>/结构草稿.json`。frontend-design 决定这些块怎么呈现。
