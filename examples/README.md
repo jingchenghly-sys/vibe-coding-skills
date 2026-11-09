@@ -8,6 +8,8 @@
 ~/workspace/projects/demo-app/
   product/README.md
   product/<页面名>/结构草稿.json
+  design/design-system.html
+  design/tokens.css
   # 本期需要的端才出现。例如只要网页和接口：
   server/  web/  deploy/
 ```

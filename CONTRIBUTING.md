@@ -5,6 +5,7 @@
 | 目录 | 用途 |
 | --- | --- |
 | `skills/vibe-coding/` | 业务项目骨架与本机环境 |
+| `skills/zcaild-design-first/` | 写界面前的设计规范页与 token |
 
 改约定就改对应目录下的 `SKILL.md` 与 `references/`（若有）。
 

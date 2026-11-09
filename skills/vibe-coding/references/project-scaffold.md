@@ -28,6 +28,7 @@
 ├── .git/             # 始终有：Git 仓库
 ├── .gitignore
 ├── product/          # 始终有：项目说明 + 各页结构草稿
+├── design/           # 有 web 或 admin 时：规范页与 tokens.css（zcaild-design-first）
 ├── README.md         # 如何安装 / 跑起来；含已有端的栈与目录约定
 ├── server/           # 按需：后端 Go（Gin + GORM → MySQL）
 ├── web/              # 按需：网页 + H5（Vue 3）
@@ -83,6 +84,7 @@ product/
 | 目录 | 职责 | 创建该目录时至少做什么 |
 | --- | --- | --- |
 | `product/` | 必要产品信息与页面结构 | `README.md` 写齐用户、目标、场景、范围、主路径、端；每个要做的页面有 `<页面名>/结构草稿.json` |
+| `design/` | 视觉规范 | 有 `web/` 或 `admin/` 时，按 `zcaild-design-first` 放规范页和 `tokens.css` |
 | `server/` | API / 领域逻辑 | Go module、Gin 入口、GORM 连 MySQL（读 `DATABASE_URL` 或等价 DSN）、基础目录（如 `cmd/` / `internal/`，按常见 Go 习惯，保持简洁） |
 | `web/` | C 端网页 + H5 | Vue 3 工程，能在本地跑起来 |
 | `admin/` | 管理后台 | 独立 Vue3 + Ant Design Vue 工程骨架（与 `web` 分离） |
