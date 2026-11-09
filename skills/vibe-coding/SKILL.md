@@ -38,7 +38,7 @@ description: >-
 - **产品**：`product/README.md` 记用户、目标、场景、范围、主路径、本期的端。每一页一份 `product/<页面名>/结构草稿.json`，改页面先改这份草稿。不写 PRD 和 HTML 原型，除非用户明确要。缺口收成一次 2～3 个方案并标明建议；没选就按建议写入，注明「按建议采用，可改」，然后继续。同一件事不问第二轮。
 - **栈**：`admin` 为 Vue 3 + Ant Design Vue；`web` 为 Vue 3。两端都是独立工程，除非用户明确要求合并。页面上有什么只来自结构草稿。后端 Go + Gin + GORM。把 `web` 换成非 Vue、换掉 `admin` 的组件库或后端栈，要用户明确授权。
 - **视觉**：同一 skills 目录里的 `zcaild-design-first` 是唯一视觉依据。写 `web/` 或 `admin/` 之前先读它的 `SKILL.md`，产出规范页和 token，界面只引用 token。同目录没有这份 skill 就停住界面。
-- **基础设施**：全机共用 `/srv/docker/<组件>/`。有 `server` 才起 MySQL；Redis、Elasticsearch 等本期用到才起。每个服务只用自己的库或命名空间。停项目不停共用组件。`deploy/` 只含本服务。
+- **基础设施**：全机共用 `/srv/docker/<组件>/`，容器名固定为 `srv-<组件>`（MySQL 是 `srv-mysql`）。先按这个名字找已有容器，有就复用。有 `server` 才起 MySQL；Redis、Elasticsearch 等本期用到才起。每个服务只用自己的库或命名空间。停项目不停共用组件。`deploy/` 只含本服务，不写这些容器。
 - **工具**：Git 每次都要。Go、Node、Docker 只在本期要建的端需要时检测；已有可用则保持，缺失装稳定版。只在确认开工后做。
 - **Git**：项目根是仓库。`.gitignore` 忽略 `.env`（保留 `.env.example`）、密钥、`node_modules/`、`dist/` 和构建产物。每次改完并自测通过后再提交；没有新改动不提交。不推远程，除非用户要求。不改 git config，不改历史。缺少用户身份就告诉用户，不代为设置。
 
@@ -55,7 +55,7 @@ description: >-
 前置：用户已同意，或主动要求开工。
 
 1. 确认英文项目名，并把六项产品信息写入 `product/`。缺口按 `references/project-scaffold.md` 收成一次选择。确认同一 skills 目录有 `zcaild-design-first`。
-2. 按 `references/environment-setup.md` 只补本期要建的端所缺的工具。
+2. 按 `references/environment-setup.md` 运行 `scripts/setup-env`，只补本期要建的端所缺的工具。不阅读脚本源码。
 3. 按 `references/project-scaffold.md` 写结构草稿，只建本期需要的端。有 `web/` 或 `admin/` 时，先按 `zcaild-design-first` 产出规范页和 token，再写界面。先打通最短路径，再铺功能。已有仓库则合并，不删用户已有的端，不覆盖用户改过的产品段落。
 4. 根 README 只写已经存在的端：环境、怎么起、目录职责、用到的 `/srv/docker` 组件和自己的库或命名空间。
 5. 还不是 Git 仓库就 `git init` 并写好 `.gitignore`。

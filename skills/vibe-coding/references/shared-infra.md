@@ -17,7 +17,7 @@ MySQL、Redis、Elasticsearch，以及以后新增的基础设施，都全机共
 
 | 路径 | 放什么 |
 | --- | --- |
-| `compose.yaml` | 这一份组件的编排。镜像用该组件的官方稳定版 |
+| `compose.yaml` | 这一份组件的编排。项目名是组件名，容器名是 `srv-<组件>`。镜像用该组件的官方稳定版 |
 | `.env` | 非密钥：端口等。不写密码，不写各服务的账号 |
 | `conf/` | 服务端配置 |
 | `data/` | 数据卷。已有数据不覆盖、不删除 |
@@ -36,7 +36,17 @@ MySQL、Redis、Elasticsearch，以及以后新增的基础设施，都全机共
 
 ## MySQL
 
-默认有 `server` 就要 MySQL。目录名是 `mysql`。镜像 `mysql:8`。`conf/my.cnf` 使用 `utf8mb4`。实例只用 root 启动，密码来自 `secrets/mysql_root_password.txt`。不设置 `MYSQL_DATABASE`，也不设一个共用业务用户。
+默认有 `server` 就要 MySQL。目录名是 `mysql`。Compose 项目名是 `mysql`，容器名是 `srv-mysql`。镜像 `mysql:8`。`conf/my.cnf` 使用 `utf8mb4`。实例只用 root 启动，密码来自 `secrets/mysql_root_password.txt`。不设置 `MYSQL_DATABASE`，也不设一个共用业务用户。
+
+```yaml
+name: mysql
+services:
+  mysql:
+    image: mysql:8
+    container_name: srv-mysql
+```
+
+Redis 的项目名是 `redis`，容器名是 `srv-redis`。Elasticsearch 的项目名是 `elasticsearch`，容器名是 `srv-elasticsearch`。
 
 `demo-app` 的库名和用户名都是 `demo_app`。密码文件是 `/srv/docker/mysql/secrets/demo_app.txt`。准备时用 root 密码执行：没有库就建库，没有用户就建用户，并 `GRANT` 该用户只访问 `demo_app`。端口读 `/srv/docker/mysql/.env`，没有则 `3306`。
 
@@ -64,12 +74,14 @@ REDIS_KEY_PREFIX=xxx
 
 项目跑起来之前，先列出它实际依赖的组件。默认：有 `server` 才依赖 MySQL。Redis、Elasticsearch 和其他组件，只有本期用到才算依赖。
 
-对列出的每一个组件：
+对列出的每一个组件，只认容器名 `srv-<组件>`。MySQL 就是 `srv-mysql`。
 
-1. 还没有 `/srv/docker/<组件>/compose.yaml` 时，按上面的目录建一次。
-2. 已经有就复用。不另起一套，不改已有 `data/`、`secrets/`、`conf/`。
-3. 只在该组件目录执行 `docker compose up -d`。
+1. 先查这个容器名。MySQL 用 `docker ps -a --filter name=^srv-mysql$`，结果必须完全是 `srv-mysql`。查到了，已退出就 `docker start srv-mysql`。不新建容器，不改它的端口，不改已有 `compose.yaml`、`data/`、`secrets/`、`conf/`。Redis、Elasticsearch 同样先查 `srv-redis`、`srv-elasticsearch`。
+2. 没查到，且没有 `/srv/docker/<组件>/compose.yaml` 时，按上面的目录和固定名字建一次。
+3. 启动时写明项目名和文件，不使用当前目录的项目名。MySQL 是 `docker compose -p mysql -f /srv/docker/mysql/compose.yaml up -d`。
 4. 再准备本服务自己的资源。MySQL 则读取 root 密码，建库、建本服务账号，并只授予该库。
+
+业务项目的 compose 里不写 mysql、redis、elasticsearch。容器名不带项目名。
 
 然后启动本项目的端。停掉本项目时，不把共用组件停掉，其他服务可能还在用。
 

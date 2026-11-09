@@ -92,7 +92,7 @@ product/
 
 ## 基础设施
 
-连接、账号和按需启动见 `shared-infra.md`。有 `server` 时 GORM 用 MySQL 驱动，连本服务自己的库。`deploy/` 不含基础设施。
+连接、账号和按需启动见 `shared-infra.md`。MySQL 只连容器 `srv-mysql`。有 `server` 时 GORM 用 MySQL 驱动，连本服务自己的库。`deploy/` 不含基础设施。
 
 ## 对齐已有仓库
 

@@ -1,126 +1,31 @@
 # 运行环境检测与安装
 
-**触发：** 用户已确认新建项目（或主动要求生成骨架 / 初始化本机环境）时再执行本文件。仅 upsert skill 或用户尚未同意建项目时，不跑本文件。
+用户已确认新建项目，或主动要求初始化本机环境时，才运行脚本。只 upsert skill、用户还没同意时不运行。
 
-生成要建的端**之前**，先按用户操作系统检测工具链。未指定 OS 时，用本机信息判断（`uname`、`$OSTYPE`、或询问用户）。
+执行脚本，不阅读脚本源码。脚本在本 skill 目录里，用它的绝对路径调用，不拷进业务项目。
 
-**Git 每次建项目都要有。** 其余只检测本期要创建的端：有 `server` 才看 Go；有 `web` 或 `admin` 才看 Node 与 npm；本项目要用共用基础设施或要建 `deploy` 才看 Docker 与 Compose。
-
-## 策略
-
-| 情况 | 做法 |
-| --- | --- |
-| 已安装且命令可用（版本能跑通本 skill 默认栈） | 保持现状 |
-| 缺失或命令不可用 | 安装**较新的稳定版**（官方/包管理器当前 stable） |
-| 用户明确要求某版本 | 按其要求 |
-
-检测以「能跑通」为准：命令在 PATH 中且 `--version` / `version` 成功即可。安装通道用稳定版（stable / LTS），不用 beta、nightly、tip、canary。
-
-## 需要覆盖的工具
-
-| 工具 | 何时需要 | 检测示例 |
-| --- | --- | --- |
-| **Git** | 每次建项目或继续改项目 | `git --version` |
-| **Go** | 要建 `server` | `go version` |
-| **Node.js** | 要建 `web` 或 `admin` | `node -v`（建议 ≥ 20 LTS 稳定线；已有可用 Node 则保持） |
-| **包管理器** | 同上，前端依赖 | 默认 **npm**（随 Node）；若用户已用 pnpm/yarn 且可用则沿用，**新环境默认 npm** |
-| **Docker** | 本项目要用共用基础设施，或要建 `deploy` | `docker version` |
-| **Docker Compose** | 同上 | `docker compose version` |
-
-本文件只负责本机工具链。MySQL、Redis、Elasticsearch 不装到宿主机上，连接方式见 `shared-infra.md`。
-
-## 检测流程（Agent）
-
-1. 识别 OS：`macOS` / `Linux` / `Windows`。
-2. 只对上表里本期需要的工具跑检测；记录「已有 / 缺失 / 本期不需要」。
-3. **只安装缺失项**；已有则跳过。
-4. 安装后复检；失败则给出官方文档链接与手工步骤，并如实说明状态。
-5. 把结果简短写进生成项目根 `README.md`「开发环境」一节（或对话里交代），再进入脚手架生成。
-
-## macOS（优先 Homebrew）
+macOS、Linux、Git Bash：
 
 ```bash
-# 检测
-go version; node -v; npm -v; docker version; docker compose version
-
-# 缺失时（示例；按缺什么装什么）
-# 无 brew 时先装：https://brew.sh
-brew install go            # 稳定 formula
-brew install node          # 当前稳定 Node
-# npm 随 node，一般无需另装
-brew install --cask docker # Docker Desktop（含 compose 插件）
-# 装完后启动 Docker Desktop，再复检 docker / docker compose
+bash "<skills 目录>/vibe-coding/scripts/setup-env.sh" [--server] [--web] [--admin] [--docker]
 ```
 
-## Linux（按发行版）
-
-先检测同上。安装优先发行版稳定源或官方稳定通道。
-
-### Debian / Ubuntu
-
-```bash
-# Go：官方稳定 tarball 或发行版包（任选其一；已有 go 则跳过）
-# 示例（版本号换成安装时官方当前 stable）：
-# curl -fsSL https://go.dev/dl/go<STABLE>.linux-amd64.tar.gz | sudo tar -C /usr/local -xz
-# export PATH=/usr/local/go/bin:$PATH
-
-# Node：NodeSource 或 nvm 的 LTS 稳定线；或发行版 `nodejs`/`npm` 若足够新
-# Docker + Compose：按 docs.docker.com 的 Linux 安装（stable 通道），启用 compose 插件
-```
-
-### Fedora / RHEL 系
-
-```bash
-# 用 dnf 安装发行版稳定 go / nodejs / npm（若可用）
-# Docker：按 Docker 官方 Fedora/CentOS 文档装 engine + compose plugin（stable）
-```
-
-### Arch
-
-```bash
-# pacman -S go nodejs npm docker docker-compose   # 仅缺什么装什么
-```
-
-Linux 上若无图形 Docker Desktop，用 Docker Engine + `docker compose` 插件即可。安装后确保用户在 `docker` 组或文档说明需 `sudo`。
-
-## Windows
-
-检测（PowerShell 或 Git Bash）：
+Windows PowerShell：
 
 ```powershell
-go version; node -v; npm -v; docker version; docker compose version
+& "<skills 目录>\vibe-coding\scripts\setup-env.ps1" [-Server] [-Web] [-Admin] [-Docker]
 ```
 
-安装优先级（缺什么装什么；已有跳过）：
+参数只加本期要建的端：`--server` 检查 Go；`--web` 或 `--admin` 检查 Node 与 npm；要用共用基础设施或要建 `deploy` 时加 `--docker`。Git 每次都查。
 
-1. **winget**（推荐，若可用）
-2. **Chocolatey** / **Scoop**
-3. 官方安装器（go.dev、nodejs.org LTS、Docker Desktop for Windows）
+白机：缺少的工具解压到用户目录 `~/.local`，不安装 Homebrew、apt 或 winget。Go、Node、Docker 客户端用官方压缩包。Git 在 macOS 和 Linux 上从官方源码编译进 `~/.local`，本机没有 C 编译器或 make 时输出要执行的命令。Docker 守护进程不随压缩包启动；Linux 上 `sudo manual` 给出 `dockerd` 命令，macOS 上打开已经安装的 Docker。装好后重新运行脚本。
 
-```powershell
-# 示例（包名以 winget search 当时结果为准；选官方 publisher 的稳定包）
-winget install OpenJS.NodeJS.LTS
-winget install GoLang.Go
-winget install Docker.DockerDesktop
-# npm 随 Node LTS
-```
+已装一部分：能运行的命令保持原版本，只装缺少的。nvm、Volta、asdf、fnm 和已安装的 Docker Desktop 会先被找到，不另装一份。用户指定了某个版本时，不要用脚本装那一项。
 
-WSL2：若用户主要在 WSL 内开发，按 **Linux** 分支在 WSL 内安装；Docker Desktop 可开 WSL integration。先确认开发落在哪一侧，再改 PATH。
+脚本不安装 MySQL、Redis、Elasticsearch。连接见 `shared-infra.md`。
 
-## 默认包管理约定
+退出码 0 后，把脚本输出写进项目根 README 的「开发环境」。出现 `daemon-down` 时写明需要启动 Docker。有 `path add` 时把那行 `export PATH` 写进同一节。退出码非 0 时按脚本输出说明失败原因，不另编安装命令。
 
-- **默认：npm**（随 Node 安装即可用）。
-- 生成 `web`/`admin` 时：`npm create` / `npm install` / `npm run dev`。
-- 若项目里已有 `pnpm-lock.yaml` 或用户声明用 pnpm，则沿用 pnpm。
+新的 `web` / `admin` 用 npm。项目里已有 `pnpm-lock.yaml` 或 `yarn.lock` 则沿用该包管理器。
 
-## 安装后最低验收
-
-只勾本期要建的端：
-
-- [ ] `git --version` 成功
-- [ ] 要建 `server`：`go version` 成功
-- [ ] 要建 `web` 或 `admin`：`node -v` 与 `npm -v` 成功
-- [ ] 本项目要用共用基础设施，或要建 `deploy`：`docker version` 成功（daemon 可连；若仅 CLI 无 daemon，在 README 注明需启动 Docker）；`docker compose version` 成功
-- [ ] 用户已有可用工具仍保持原版本
-
-然后再执行 `project-scaffold.md`。有 `server` 时使用共用 MySQL，并为该服务创建自己的库。
+然后执行 `project-scaffold.md`。有 `server` 时使用共用 MySQL，并为该服务创建自己的库。

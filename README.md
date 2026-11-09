@@ -76,6 +76,9 @@ vibe-coding-skills/
 └── skills/
     ├── vibe-coding/
     │   ├── SKILL.md
+    │   ├── scripts/
+    │   │   ├── setup-env.sh
+    │   │   └── setup-env.ps1
     │   └── references/
     │       ├── environment-setup.md
     │       ├── project-scaffold.md
